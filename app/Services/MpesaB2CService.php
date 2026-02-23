@@ -41,7 +41,10 @@ class MpesaB2CService
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
             'Content-Type' => 'application/json',
-        ])->post($this->config->getB2CUrl(), $payload);
+        ])
+        ->withoutVerifying()
+        ->timeout(30)
+        ->post($this->config->getB2CUrl(), $payload);
 
         if (!$response->successful()) {
             throw new \Exception('B2C payment request failed: ' . $response->body());

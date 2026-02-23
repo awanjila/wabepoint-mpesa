@@ -31,7 +31,10 @@ class MpesaAuthService
 
         $response = Http::withHeaders([
             'Authorization' => 'Basic ' . $credentials,
-        ])->get($this->config->getAuthUrl());
+        ])
+        ->withoutVerifying()
+        ->timeout(30)
+        ->get($this->config->getAuthUrl());
 
         if (!$response->successful()) {
             throw new \Exception('Failed to fetch M-Pesa access token: ' . $response->body());

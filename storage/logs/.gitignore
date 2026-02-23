@@ -3,3 +3,7 @@
 !public/
 !public/build/
 !public/build/**
+nul
+con
+prn
+aux

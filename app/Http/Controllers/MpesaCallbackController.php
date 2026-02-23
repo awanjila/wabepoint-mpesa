@@ -7,6 +7,7 @@ use App\Jobs\NotifyWordPressOfResult;
 use App\Models\PayoutJob;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class MpesaCallbackController extends Controller
 {
@@ -56,6 +57,81 @@ class MpesaCallbackController extends Controller
                 'result_desc' => 'Request timed out',
                 'processed_at' => now(),
             ]);
+
+            NotifyWordPressOfResult::dispatch($payoutJob->id);
+        }
+
+        return response()->json([
+            'ResultCode' => 0,
+            'ResultDesc' => 'Timeout acknowledged',
+        ]);
+    }
+
+    public function result(Request $request): JsonResponse
+    {
+        Log::info('M-Pesa B2C Result Callback', [
+            'payload' => $request->all(),
+            'headers' => $request->headers->all(),
+        ]);
+
+        $originatorConvId = $request->input('Result.OriginatorConversationID');
+        $resultCode = $request->input('Result.ResultCode');
+        $resultDesc = $request->input('Result.ResultDesc');
+        $conversationId = $request->input('Result.ConversationID');
+        $transactionId = $request->input('Result.TransactionID');
+
+        $payoutJob = PayoutJob::where('originator_conv_id', $originatorConvId)->first();
+
+        if (!$payoutJob) {
+            Log::warning('B2C Result: Payout job not found', ['originator_conv_id' => $originatorConvId]);
+            return response()->json([
+                'ResultCode' => 1,
+                'ResultDesc' => 'Transaction not found',
+            ]);
+        }
+
+        $payoutJob->update([
+            'result_code' => $resultCode,
+            'result_desc' => $resultDesc,
+            'conversation_id' => $conversationId,
+            'mpesa_receipt' => $transactionId,
+            'status' => $resultCode === 0 ? PayoutStatus::COMPLETED : PayoutStatus::FAILED,
+            'processed_at' => now(),
+        ]);
+
+        Log::info('B2C Result: Payout job updated', [
+            'job_id' => $payoutJob->id,
+            'status' => $payoutJob->status->value,
+            'result_code' => $resultCode,
+        ]);
+
+        NotifyWordPressOfResult::dispatch($payoutJob->id);
+
+        return response()->json([
+            'ResultCode' => 0,
+            'ResultDesc' => 'Accepted',
+        ]);
+    }
+
+    public function queueTimeout(Request $request): JsonResponse
+    {
+        Log::info('M-Pesa B2C Queue Timeout Callback', [
+            'payload' => $request->all(),
+            'headers' => $request->headers->all(),
+        ]);
+
+        $originatorConvId = $request->input('Result.OriginatorConversationID');
+
+        $payoutJob = PayoutJob::where('originator_conv_id', $originatorConvId)->first();
+
+        if ($payoutJob) {
+            $payoutJob->update([
+                'status' => PayoutStatus::FAILED,
+                'result_desc' => 'Request timed out',
+                'processed_at' => now(),
+            ]);
+
+            Log::info('B2C Timeout: Payout job marked as failed', ['job_id' => $payoutJob->id]);
 
             NotifyWordPressOfResult::dispatch($payoutJob->id);
         }

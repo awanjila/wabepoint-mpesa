@@ -26,3 +26,6 @@ Route::middleware('api.key')->prefix('v1')->group(function () {
 
 Route::post('/mpesa/callback', MpesaCallbackController::class);
 Route::post('/mpesa/timeout', [MpesaCallbackController::class, 'timeout']);
+
+Route::post('/b2c/result', [MpesaCallbackController::class, 'result']);
+Route::post('/b2c/queue', [MpesaCallbackController::class, 'queueTimeout']);

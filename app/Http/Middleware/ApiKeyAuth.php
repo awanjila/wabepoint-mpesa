@@ -35,7 +35,7 @@ class ApiKeyAuth
             ], 403);
         }
 
-        $request->tenant = $tenant;
+        $request->attributes->set('tenant', $tenant);
 
         return $next($request);
     }

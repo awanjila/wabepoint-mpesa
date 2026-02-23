@@ -52,9 +52,9 @@ Route::controller(BlogController::class)->group(function(){
    
 
     ///frontend///
-    Route::get('show/blog/{slug}', 'ShowBlog')
-    ->name('blogs.show')
-    ->where('slug', '[A-Za-z0-9\-]+');
+    // Route::get('show/blog/{slug}', 'ShowBlog')
+    // ->name('blogs.show')
+    // ->where('slug', '[A-Za-z0-9\-]+');
 
     Route::get('/blogs/{slug}', [BlogController::class, 'show'])->name('blogs.show');
     // Route::get('blogs', 'IndexOfClientBlogs')->name('blogs.index');

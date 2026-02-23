@@ -13,7 +13,7 @@ class PayoutController extends Controller
 {
     public function store(StorePayoutRequest $request): JsonResponse
     {
-        $tenant = $request->tenant;
+        $tenant = $request->get('tenant');
 
         $existingJob = PayoutJob::where('tenant_id', $tenant->id)
             ->where('idempotency_key', $request->idempotency_key)
