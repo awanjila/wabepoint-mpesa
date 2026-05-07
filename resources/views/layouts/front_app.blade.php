@@ -24,6 +24,7 @@
   <meta name="keywords" content="{{ $keywords }}">
   <meta name="author" content="{{ $siteName }}">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="google-site-verification" content="{{ config('seo.google_site_verification', '') }}">
   <link rel="canonical" href="{{ $canonical }}">
 
   {{-- Open Graph / Facebook --}}
@@ -70,6 +71,54 @@
       ],
     ], JSON_UNESCAPED_SLASHES) !!}
   </script>
+  <script type="application/ld+json">
+    {!! json_encode([
+      '@context' => 'https://schema.org',
+      '@type' => 'Organization',
+      'name' => 'WabePoint',
+      'url' => url('/'),
+      'logo' => asset('assets/images/logo/logo.png'),
+      'description' => 'Modern POS and inventory management system for Kenyan businesses. Serving cosmetics, hardware, paint shops, restaurants, and offices.',
+      'contactPoint' => [
+        '@type' => 'ContactPoint',
+        'telephone' => '+254-781-312-070',
+        'contactType' => 'sales',
+        'availableLanguage' => ['English'],
+      ],
+      'sameAs' => [
+        'https://facebook.com/wabepoint',
+      ],
+      'address' => [
+        '@type' => 'PostalAddress',
+        'addressCountry' => 'KE',
+      ],
+    ], JSON_UNESCAPED_SLASHES) !!}
+  </script>
+  <script type="application/ld+json">
+    {!! json_encode([
+      '@context' => 'https://schema.org',
+      '@type' => 'WebSite',
+      'name' => $siteName,
+      'url' => url('/'),
+      'description' => $description,
+      'potentialAction' => [
+        '@type' => 'SearchAction',
+        'target' => url('/') . '/?s={search_term_string}',
+        'query-input' => 'required name=search_term_string',
+      ],
+    ], JSON_UNESCAPED_SLASHES) !!}
+  </script>
+
+  {{-- Google tag (gtag.js) --}}
+  @if(config('services.google.analytics_id'))
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google.analytics_id') }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ config('services.google.analytics_id') }}');
+    </script>
+  @endif
 
   @vite('resources/js/app.js')
 </head>

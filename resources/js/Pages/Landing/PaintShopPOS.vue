@@ -289,12 +289,12 @@ onMounted(() => {
                             </div>
                             <div class="flex-1 text-center text-xs text-white/70 font-medium uppercase tracking-wide">WabePoint POS — {{ carouselImages[carouselIndex].caption }}</div>
                         </div>
-                        <img
-                            :src="carouselImages[carouselIndex].src"
-                            :alt="carouselImages[carouselIndex].alt"
-                            class="w-full object-cover"
-                            style="min-height: 300px;"
-                        />
+                            <img
+                                :src="carouselImages[carouselIndex].src"
+                                :alt="carouselImages[carouselIndex].alt"
+                                class="w-full h-full object-contain"
+                                loading="lazy"
+                            />
                     </div>
 
                     <!-- Carousel controls -->

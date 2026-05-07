@@ -12,6 +12,8 @@ return [
         'type' => 'website',
     ],
 
+    'google_site_verification' => env('GOOGLE_SITE_VERIFICATION', ''),
+
     'social' => [
         'twitter_handle' => '@wabepoint',
         'facebook_url' => 'https://facebook.com/wabepoint',
