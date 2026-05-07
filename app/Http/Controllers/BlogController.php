@@ -48,9 +48,15 @@ class BlogController extends Controller
 
     public function index()
     {
+        $seo = [
+            'title' => 'Blog - WabePoint POS & Inventory Management Tips',
+            'description' => 'Stay updated with the latest POS and inventory management tips, business insights, and industry news from WabePoint.',
+            'keywords' => 'pos blog, inventory tips, business management, retail insights, wabepoint blog',
+        ];
+
         return Inertia::render('Blogs/Index', [ 
-        'blogs' => Blog::latest()->get(),
-        
+            'blogs' => Blog::latest()->get(),
+            'seo' => $seo,
         ]);
     }//endmethod
 
@@ -58,12 +64,21 @@ class BlogController extends Controller
 {
     $blog = Blog::with('category')->where('slug', $slug)->firstOrFail();
 
+    $seo = [
+        'title' => $blog->title . ' - WabePoint Blog',
+        'description' => Str::limit(strip_tags($blog->content), 160),
+        'keywords' => $blog->category?->name . ', ' . Str::slug($blog->title),
+        'canonical' => url()->current(),
+        'type' => 'article',
+    ];
+
     return Inertia::render('Blogs/Show', [
         'blog'       => $blog,
         'canLogin'   => true,
         'canRegister'=> true,
-        'url'        => url()->current(), // 👈 fix "url" missing prop
-        'blogPosts'  => Blog::latest()->take(6)->get(), // 👈 fix "undefined filter"
+        'url'        => url()->current(),
+        'blogPosts'  => Blog::latest()->take(6)->get(),
+        'seo'        => $seo,
     ]);
 }//endmethod
 

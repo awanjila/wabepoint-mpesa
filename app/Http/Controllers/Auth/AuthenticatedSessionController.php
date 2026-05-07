@@ -22,6 +22,10 @@ class AuthenticatedSessionController extends Controller
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
+            'seo' => [
+                'title' => 'Login - WabePoint POS & Inventory System',
+                'description' => 'Sign in to your WabePoint account to manage your POS, inventory, and sales.',
+            ],
         ]);
     }
 

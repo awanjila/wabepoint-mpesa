@@ -21,7 +21,12 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Auth/Register', [
+            'seo' => [
+                'title' => 'Create Account - WabePoint POS & Inventory System',
+                'description' => 'Sign up for WabePoint and start managing your POS and inventory today.',
+            ],
+        ]);
     }
 
     /**

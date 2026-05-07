@@ -1,60 +1,395 @@
 <script setup>
+import { ref } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
-import Navigation from '@/Components/Navigation.vue';
-import HeroSection from '@/Components/HeroSection.vue';
-import ProblemSolutionSection from '@/Components/ProblemSolutionSection.vue';
-import FeatureSection from '@/Components/FeatureSection.vue';
-import CustomerReviews from '@/Components/CustomerReviews.vue';
-import PricingSection from '@/Components/PricingSection.vue';
-import FaqSection from '@/Components/FaqSection.vue';
-import FinalCta from '@/Components/FinalCta.vue';
 import Footer from '@/Components/Footer.vue';
 
 defineProps({
-    canLogin: Boolean,
-    canRegister: Boolean,
-    laravelVersion: String,
-    phpVersion: {
-        type: String,
-        default: '',
-    },
+    seo: Object,
 });
+
+const faqs = [
+    {
+        question: 'What is the difference between Core, Flow, and Comply?',
+        answer: 'Core is basic POS with sales, stock tracking, and offline support. Flow adds M-Pesa STK Push for customer payment prompts. Comply includes KRA eTIMS integration for tax compliance and advanced analytics.',
+    },
+    {
+        question: 'Does it work without internet?',
+        answer: 'Yes. Sales are recorded locally and sync automatically when internet returns. Works for all industries — paint shops, hardware stores, restaurants, cosmetics, and offices.',
+    },
+    {
+        question: 'How long does setup take?',
+        answer: 'Products loaded, cashiers configured, and your team trained in under 1 hour. We handle everything remotely.',
+    },
+    {
+        question: 'Can it track M-Pesa and cash separately?',
+        answer: 'Yes. Each payment method is tracked independently. See daily totals per method and reconcile in seconds.',
+    },
+    {
+        question: 'What devices does it work on?',
+        answer: 'Any tablet, phone, or computer with a browser. Install as a PWA for a native app experience.',
+    },
+    {
+        question: 'Is there a free trial?',
+        answer: 'Yes. Contact us on WhatsApp for a free demo and trial period. No commitment required.',
+    },
+];
+
+const openFaq = ref(null);
+function toggleFaq(index) {
+    openFaq.value = openFaq.value === index ? null : index;
+}
+
+const whatsappNumber = '254781312070';
+const whatsappMessage = encodeURIComponent('Hi, I\'m interested in WabePoint POS. I\'d like to book a demo.');
+const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
+const industries = [
+    { title: 'Cosmetics', icon: 'sparkles', desc: 'Track lipsticks, foundations, and beauty products by shade and expiry', link: '/cosmetics' },
+    { title: 'Hardware', icon: 'wrench', desc: 'Manage nails, paints, cement, and bulk stock with variant pricing', link: '/hardware' },
+    { title: 'Paint Shops', icon: 'paint', desc: 'Handle paint fractions, colour mixing, and litre-by-litre tracking', link: '/paintshops' },
+    { title: 'Restaurants', icon: 'food', desc: 'Menu management, table orders, and kitchen receipt printing', link: '/restaurants' },
+    { title: 'Offices', icon: 'doc', desc: 'Professional invoice generation, PO tracking, and expense recording', link: '/offices' },
+];
 </script>
 
 <template>
     <Head>
-        <title>Wabepoint - Modern POS & Inventory Management</title>
-        <meta name="description" content="Streamline your business operations with Wabepoint's powerful POS and inventory management system." />
-        <meta name="keywords" content="POS, inventory management, business software, retail solution" />
-        <meta property="og:title" content="Wabepoint - Modern POS & Inventory Management" />
-        <meta property="og:description" content="Streamline your business operations with Wabepoint's powerful POS and inventory management system." />
-        <meta property="og:type" content="website" />
+        <title>{{ seo?.title || 'WabePoint - POS & Inventory Management System Kenya' }}</title>
+        <meta name="description" :content="seo?.description" />
+        <meta name="keywords" :content="seo?.keywords" />
+        <meta property="og:title" :content="seo?.title" />
+        <meta property="og:description" :content="seo?.description" />
+        <meta property="og:type" :content="seo?.type || 'website'" />
+        <meta property="og:url" :content="seo?.canonical || 'https://wabepoint.com'" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Wabepoint - Modern POS & Inventory Management" />
-        <meta name="twitter:description" content="Streamline your business operations with Wabepoint's powerful POS and inventory management system." />
+        <meta name="twitter:title" :content="seo?.title" />
+        <meta name="twitter:description" :content="seo?.description" />
+        <link rel="canonical" :href="seo?.canonical || 'https://wabepoint.com'" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     </Head>
 
-    <div class="min-h-screen bg-gray-100">
-        <Navigation :canLogin="canLogin" :canRegister="canRegister" />
-        <!-- Hero Section -->
-        <HeroSection />
-        <ProblemSolutionSection />
-        <FeatureSection />
-        <CustomerReviews />
-        <PricingSection />
-        <FaqSection />
-        <FinalCta />
+    <div class="min-h-screen bg-[#f3f4f6] font-sans antialiased" style="font-family: 'Inter', 'Segoe UI', sans-serif;">
+        <!-- ==================== TOP BAR ==================== -->
+        <div class="bg-gradient-to-r from-[#2596be] to-[#2596be] text-white py-2.5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center text-sm">
+                    <div class="flex items-center space-x-6">
+                        <a href="tel:+254710909198" class="flex items-center hover:text-white/90 transition-colors">
+                            <svg class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            <span class="font-medium">+254 781 312 070</span>
+                        </a>
+                        <a href="mailto:support@wabepoint.com" class="flex items-center hover:text-white/90 transition-colors">
+                            <svg class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            <span class="font-medium">support@wabepoint.com</span>
+                        </a>
+                    </div>
+                    <span class="hidden sm:block text-white/80 font-medium tracking-wide">ALL-IN-ONE POS SYSTEM</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== NAV ==================== -->
+        <nav class="bg-white shadow-sm sticky top-0 left-0 right-0 z-50 border-b-2 border-[#2596be]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex items-center">
+                        <Link href="/">
+                            <img src="/assets/images/logo/logo.png" alt="WabePoint" class="h-9 w-auto" />
+                        </Link>
+                        <span class="ml-3 px-2 py-0.5 bg-[#2596be]/10 text-[#2596be] text-xs font-bold uppercase tracking-wider rounded-sm border border-[#2596be]/20">POS</span>
+                    </div>
+                    <div class="flex items-center">
+                        <a :href="whatsappUrl" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-[#25D366] rounded-sm hover:bg-[#20bd5a] transition-all duration-150 border-2 border-[#25D366]">
+                            <svg class="mr-1.5 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.386 0-4.592-.828-6.328-2.208l-.44-.352-3.24 1.085 1.085-3.24-.352-.44A9.958 9.958 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
+                            </svg>
+                            Book Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ==================== HERO SECTION ==================== -->
+        <section class="relative bg-gradient-to-br from-[#1a3a4a] via-[#1e4d64] to-[#1a3a4a] text-white overflow-hidden">
+            <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 40px 40px;"></div>
+            <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#2596be]/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#25D366]/5 rounded-full blur-3xl"></div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+                <div class="text-center max-w-4xl mx-auto">
+                    <div class="inline-flex items-center px-3 py-1.5 bg-[#2596be]/20 border border-[#2596be]/30 text-[#5ec4e8] text-xs font-bold uppercase tracking-widest mb-6 rounded-sm">
+                        <span class="w-1.5 h-1.5 bg-[#25D366] rounded-full mr-2 animate-pulse"></span>
+                        Trusted by Businesses Across Kenya
+                    </div>
+
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+                        ONE SYSTEM FOR<br>
+                        <span class="text-[#5ec4e8]">EVERY BUSINESS</span>
+                    </h1>
+
+                    <p class="mt-5 text-base sm:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
+                        POS, inventory, invoicing, and payments — built for cosmetics, hardware, paint shops, restaurants, and offices. Track every sale, manage stock, reconcile M-Pesa, and generate invoices from one dashboard.
+                    </p>
+
+                    <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+                        <a :href="whatsappUrl" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center justify-center px-6 py-3.5 text-sm font-bold uppercase tracking-wider text-white bg-[#25D366] rounded-sm hover:bg-[#20bd5a] transition-all duration-150 border-2 border-[#25D366] hover:shadow-lg hover:shadow-[#25D366]/20">
+                            <svg class="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.386 0-4.592-.828-6.328-2.208l-.44-.352-3.24 1.085 1.085-3.24-.352-.44A9.958 9.958 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
+                            </svg>
+                            Book Demo on WhatsApp
+                        </a>
+                        <a href="#industries"
+                           class="inline-flex items-center justify-center px-6 py-3.5 border-2 border-white/30 text-sm font-bold uppercase tracking-wider text-white rounded-sm hover:bg-white/10 hover:border-white/50 transition-all duration-150">
+                            See Industries
+                            <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="mt-10 grid grid-cols-4 gap-4 max-w-lg mx-auto">
+                        <div class="text-center">
+                            <div class="text-2xl font-extrabold text-white">5+</div>
+                            <div class="mt-0.5 text-xs text-white/50 font-medium uppercase tracking-wide">Industries</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-extrabold text-[#25D366]">OFFLINE</div>
+                            <div class="mt-0.5 text-xs text-white/50 font-medium uppercase tracking-wide">Supported</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-extrabold text-white">1HR</div>
+                            <div class="mt-0.5 text-xs text-white/50 font-medium uppercase tracking-wide">Setup</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-extrabold text-white">24/7</div>
+                            <div class="mt-0.5 text-xs text-white/50 font-medium uppercase tracking-wide">Support</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== INDUSTRIES ==================== -->
+        <section id="industries" class="relative bg-white py-16 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="inline-block px-3 py-1 bg-[#2596be]/10 text-[#2596be] text-xs font-bold uppercase tracking-widest rounded-sm mb-3 border border-[#2596be]/20">INDUSTRIES</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900">Built for Every Business</h2>
+                    <p class="mt-2 text-gray-600">One system that adapts to how you sell</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                    <Link v-for="item in industries" :key="item.title" :href="item.link" class="group bg-white rounded-sm p-5 border-2 border-[#e5e7eb] hover:border-[#2596be] hover:shadow-md transition-all duration-150 text-center block">
+                        <div class="w-10 h-10 mx-auto mb-3 bg-[#2596be]/10 rounded-sm flex items-center justify-center border border-[#2596be]/20 group-hover:bg-[#2596be] group-hover:border-[#2596be] transition-all duration-150">
+                            <svg v-if="item.icon === 'sparkles'" class="w-5 h-5 text-[#2596be] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                            <svg v-else-if="item.icon === 'wrench'" class="w-5 h-5 text-[#2596be] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            <svg v-else-if="item.icon === 'paint'" class="w-5 h-5 text-[#2596be] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+                            <svg v-else-if="item.icon === 'food'" class="w-5 h-5 text-[#2596be] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                            <svg v-else class="w-5 h-5 text-[#2596be] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        </div>
+                        <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide">{{ item.title }}</h3>
+                        <p class="mt-1 text-xs text-gray-600 leading-relaxed">{{ item.desc }}</p>
+                    </Link>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== FEATURES OVERVIEW ==================== -->
+        <section class="relative bg-[#f3f4f6] py-16 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="inline-block px-3 py-1 bg-[#2596be]/10 text-[#2596be] text-xs font-bold uppercase tracking-widest rounded-sm mb-3 border border-[#2596be]/20">FEATURES</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900">Everything You Need</h2>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div v-for="feat in [
+                        { title: 'Sales & POS', desc: 'Fast touch-optimized checkout with receipt printing and multiple payment methods.' },
+                        { title: 'Stock Management', desc: 'Track inventory in real time. Stock decreases automatically with each sale.' },
+                        { title: 'M-Pesa Integration', desc: 'STK Push payment prompts and automatic reconciliation for M-Pesa and cash.' },
+                        { title: 'Invoice Generation', desc: 'Professional invoices, purchase orders, and expense tracking for offices.' },
+                        { title: 'Offline Support', desc: 'Sell even without internet. Data syncs automatically when connection returns.' },
+                        { title: 'Daily Reports', desc: 'See sales, profit, stock levels, and payment method totals at a glance.' },
+                    ]" :key="feat.title" class="bg-white rounded-sm p-5 border-2 border-[#e5e7eb] hover:border-[#2596be] transition-all duration-150">
+                        <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide">{{ feat.title }}</h3>
+                        <p class="mt-1 text-sm text-gray-600">{{ feat.desc }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PRICING ==================== -->
+        <section id="pricing" class="relative bg-white py-16 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="inline-block px-3 py-1 bg-[#2596be]/10 text-[#2596be] text-xs font-bold uppercase tracking-widest rounded-sm mb-3 border border-[#2596be]/20">PRICING</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900">Choose Your Plan</h2>
+                    <p class="mt-2 text-gray-600">Flat monthly pricing. No hidden fees.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Core -->
+                    <div class="relative bg-white rounded-sm border-2 border-[#e5e7eb] hover:border-[#2596be]/50 transition-all duration-150">
+                        <div class="p-6">
+                            <h3 class="text-lg font-extrabold text-gray-900 uppercase tracking-wide">WabePoint Core</h3>
+                            <div class="mt-4">
+                                <span class="text-4xl font-extrabold text-gray-900">KES 2,000</span>
+                                <span class="text-sm text-gray-500">/month</span>
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500">Basic POS with sales, receipt printing, stock tracking, reports, and offline support.</p>
+                            <ul class="mt-6 space-y-3">
+                                <li v-for="item in ['Sales & POS', 'Receipt printing', 'Stock tracking', 'Basic reports', 'Offline support', 'Multiple payment methods']" :key="item" class="flex items-start text-sm text-gray-700">
+                                    <svg class="h-4 w-4 text-[#2596be] mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="px-6 pb-6">
+                            <a :href="whatsappUrl" target="_blank" rel="noopener noreferrer"
+                               class="block w-full text-center py-2.5 text-xs font-bold uppercase tracking-wider text-[#2596be] border-2 border-[#2596be] rounded-sm hover:bg-[#2596be] hover:text-white transition-all duration-150">
+                                Get Core
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Flow (Most Popular) -->
+                    <div class="relative bg-white rounded-sm border-2 border-[#2596be] shadow-md transform scale-105 transition-all duration-150">
+                        <div class="absolute top-0 right-0 bg-[#2596be] text-white px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-bl-sm">Most Popular</div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-extrabold text-[#2596be] uppercase tracking-wide">WabePoint Flow</h3>
+                            <div class="mt-4">
+                                <span class="text-4xl font-extrabold text-gray-900">KES 3,500</span>
+                                <span class="text-sm text-gray-500">/month</span>
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500">Everything in Core + M-Pesa STK Push, faster checkout, and payment tracking.</p>
+                            <ul class="mt-6 space-y-3">
+                                <li v-for="item in ['Everything in Core', 'M-Pesa STK Push', 'Faster checkout', 'Payment tracking', 'Customer management', 'Priority support']" :key="item" class="flex items-start text-sm text-gray-700">
+                                    <svg class="h-4 w-4 text-[#2596be] mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="px-6 pb-6">
+                            <a :href="whatsappUrl" target="_blank" rel="noopener noreferrer"
+                               class="block w-full text-center py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-[#2596be] rounded-sm hover:bg-[#1e7a9e] transition-all duration-150 border-2 border-[#2596be]">
+                                Get Flow
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Comply -->
+                    <div class="relative bg-white rounded-sm border-2 border-[#e5e7eb] hover:border-[#2596be]/50 transition-all duration-150">
+                        <div class="p-6">
+                            <h3 class="text-lg font-extrabold text-gray-900 uppercase tracking-wide">WabePoint Comply</h3>
+                            <div class="mt-4">
+                                <span class="text-4xl font-extrabold text-gray-900">KES 6,000</span>
+                                <span class="text-sm text-gray-500">/month</span>
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500">Everything in Flow + KRA eTIMS integration, tax records, and compliance reports.</p>
+                            <ul class="mt-6 space-y-3">
+                                <li v-for="item in ['Everything in Flow', 'KRA eTIMS integration', 'Tax records', 'Compliance reports', 'Advanced analytics', 'API access', 'Dedicated support']" :key="item" class="flex items-start text-sm text-gray-700">
+                                    <svg class="h-4 w-4 text-[#2596be] mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="px-6 pb-6">
+                            <a :href="whatsappUrl" target="_blank" rel="noopener noreferrer"
+                               class="block w-full text-center py-2.5 text-xs font-bold uppercase tracking-wider text-[#2596be] border-2 border-[#2596be] rounded-sm hover:bg-[#2596be] hover:text-white transition-all duration-150">
+                                Get Comply
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== HOW IT WORKS ==================== -->
+        <section class="relative bg-[#f3f4f6] py-16 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="inline-block px-3 py-1 bg-[#2596be]/10 text-[#2596be] text-xs font-bold uppercase tracking-widest rounded-sm mb-3 border border-[#2596be]/20">SIMPLE SETUP</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900">Up and Running in 3 Steps</h2>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="relative text-center group">
+                        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-sm bg-gradient-to-br from-[#2596be] to-[#1e7a9e] text-2xl font-extrabold text-white shadow-md group-hover:shadow-lg transition-all duration-150">1</div>
+                        <h3 class="mb-2 text-base font-bold text-gray-900 uppercase tracking-wide">System Installed</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">We load your products, configure payments, and train your team. Done in under 1 hour.</p>
+                    </div>
+                    <div class="relative text-center group">
+                        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-sm bg-gradient-to-br from-[#2596be] to-[#1e7a9e] text-2xl font-extrabold text-white shadow-md group-hover:shadow-lg transition-all duration-150">2</div>
+                        <h3 class="mb-2 text-base font-bold text-gray-900 uppercase tracking-wide">Start Selling</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">Tap, add to cart, select payment. Any staff can use it within 5 minutes.</p>
+                    </div>
+                    <div class="relative text-center group">
+                        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-sm bg-gradient-to-br from-[#2596be] to-[#1e7a9e] text-2xl font-extrabold text-white shadow-md group-hover:shadow-lg transition-all duration-150">3</div>
+                        <h3 class="mb-2 text-base font-bold text-gray-900 uppercase tracking-wide">View Reports</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">Check stock, daily sales, and profit from anywhere on your phone or computer.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== FAQ ==================== -->
+        <section id="faq" class="relative bg-white py-16 overflow-hidden">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="inline-block px-3 py-1 bg-[#2596be]/10 text-[#2596be] text-xs font-bold uppercase tracking-widest rounded-sm mb-3 border border-[#2596be]/20">FAQ</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900">Frequently Asked Questions</h2>
+                </div>
+
+                <div class="space-y-3">
+                    <div v-for="(faq, index) in faqs" :key="index" class="overflow-hidden rounded-sm border-2 border-[#e5e7eb] bg-white hover:border-[#2596be]/30 transition-all duration-150">
+                        <button @click="toggleFaq(index)" class="flex w-full items-center justify-between px-5 py-4 text-left hover:bg-[#f8fbfd] transition">
+                            <span class="font-semibold text-gray-900 text-sm">{{ faq.question }}</span>
+                            <svg class="h-4 w-4 text-[#2596be] ml-4 flex-shrink-0 transition-transform duration-200" :class="{ 'rotate-180': openFaq === index }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div v-show="openFaq === index" class="border-t border-[#e5e7eb] px-5 py-4 text-sm text-gray-600 leading-relaxed">
+                            {{ faq.answer }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== FINAL CTA ==================== -->
+        <section class="relative bg-gradient-to-br from-[#1a3a4a] via-[#1e4d64] to-[#1a3a4a] text-white overflow-hidden">
+            <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 40px 40px;"></div>
+            <div class="absolute top-0 right-0 w-80 h-80 bg-[#2596be]/10 rounded-full blur-3xl"></div>
+
+            <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+                <h2 class="text-2xl md:text-3xl lg:text-4xl font-extrabold mb-4 leading-tight">
+                    READY TO TAKE CONTROL<br>
+                    <span class="text-[#5ec4e8]">OF YOUR BUSINESS?</span>
+                </h2>
+                <p class="text-base text-white/60 mb-8 max-w-xl mx-auto">
+                    Join businesses across Kenya using WabePoint to track sales, manage stock, and grow with confidence.
+                </p>
+                <a :href="whatsappUrl" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-wider text-white bg-[#25D366] rounded-sm hover:bg-[#20bd5a] shadow-lg shadow-[#25D366]/20 transition-all duration-150 border-2 border-[#25D366] hover:shadow-xl hover:shadow-[#25D366]/30">
+                    <svg class="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.386 0-4.592-.828-6.328-2.208l-.44-.352-3.24 1.085 1.085-3.24-.352-.44A9.958 9.958 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
+                    </svg>
+                    Request Demo on WhatsApp
+                </a>
+            </div>
+        </section>
+
+        <!-- ==================== FOOTER ==================== -->
         <Footer />
-        <!-- Hero Section -->
-
-        
-      
-
-        <!-- Main content -->
-        <!-- ... existing code ... -->
     </div>
 </template>
-
