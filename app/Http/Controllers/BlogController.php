@@ -62,7 +62,10 @@ class BlogController extends Controller
 
     public function show($slug)
 {
-    $blog = Blog::with('category')->where('slug', $slug)->firstOrFail();
+    $blog = Blog::with('category', 'user')->where('slug', $slug)->firstOrFail();
+
+    $previous = Blog::where('id', '<', $blog->id)->orderBy('id', 'desc')->first();
+    $next = Blog::where('id', '>', $blog->id)->orderBy('id', 'asc')->first();
 
     $seo = [
         'title' => $blog->title . ' - WabePoint Blog',
@@ -74,6 +77,8 @@ class BlogController extends Controller
 
     return Inertia::render('Blogs/Show', [
         'blog'       => $blog,
+        'previous'   => $previous,
+        'next'       => $next,
         'canLogin'   => true,
         'canRegister'=> true,
         'url'        => url()->current(),

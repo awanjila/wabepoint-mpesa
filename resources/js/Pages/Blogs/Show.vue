@@ -1,816 +1,146 @@
-<style scoped>
-/* Corporate Theme - Sky Blue & Navy Blue */
-:root {
-  --primary-navy: #1e3a8a;
-  --secondary-navy: #1e40af;
-  --light-navy: #3b82f6;
-  --sky-blue: #0ea5e9;
-  --light-sky: #38bdf8;
-  --pale-sky: #e0f2fe;
-  --white: #ffffff;
-  --light-gray: #f8fafc;
-  --medium-gray: #64748b;
-  --dark-gray: #334155;
-  --border-color: #e2e8f0;
-  --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-strong: 0 10px 25px rgba(0, 0, 0, 0.15);
-  --gradient-primary: linear-gradient(135deg, var(--primary-navy), var(--secondary-navy));
-  --gradient-sky: linear-gradient(135deg, var(--sky-blue), var(--light-sky));
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
-  color: var(--dark-gray);
-  background: linear-gradient(135deg, var(--pale-sky) 0%, var(--white) 100%);
-  min-height: 100vh;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* YouTube-style Layout */
-.youtube-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-/* Hero Section - Takes up most viewport */
-.hero-section {
-  flex: 1;
-  padding: 40px 0;
-  background: var(--white);
-  box-shadow: var(--shadow-light);
-  position: relative;
-}
-
-.hero-content {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 40px;
-  align-items: start;
-  position: relative;
-}
-
-/* Main Content Area */
-.main-content {
-  background: var(--white);
-  border-radius: 16px;
-  box-shadow: var(--shadow-strong);
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  position: relative;
-}
-
-/* Featured Media */
-.featured-media {
-  position: relative;
-  width: 100%;
-  height: 450px;
-  overflow: hidden;
-  background: var(--gradient-primary);
-}
-
-.hero-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-  border-radius: 0;
-}
-
-.hero-image:hover {
-  transform: scale(1.02);
-}
-
-/* Content Header */
-.content-header {
-  padding: 30px 40px 20px;
-  border-bottom: 3px solid var(--sky-blue);
-  background: linear-gradient(135deg, var(--white) 0%, var(--pale-sky) 100%);
-  position: relative;
-}
-
-.content-header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: var(--gradient-sky);
-}
-
-.video-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--primary-navy);
-  margin-bottom: 20px;
-  line-height: 1.2;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Meta Info */
-.content-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.author-info {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.author-avatar {
-  position: relative;
-}
-
-.avatar-circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: var(--gradient-sky);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  color: var(--white);
-  font-size: 1.2rem;
-  box-shadow: var(--shadow-medium);
-  border: 3px solid var(--white);
-}
-
-.author-details {
-  display: flex;
-  flex-direction: column;
-}
-
-.author-name {
-  font-weight: 600;
-  color: var(--primary-navy);
-  font-size: 1.1rem;
-}
-
-.publish-date {
-  color: var(--medium-gray);
-  font-size: 0.9rem;
-}
-
-/* Action Buttons - Corporate Style */
-.action-buttons {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.action-btn {
-  width: 45px;
-  height: 45px;
-  border-radius: 12px;
-  border: 2px solid var(--sky-blue);
-  background: var(--white);
-  color: var(--sky-blue);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-light);
-  position: relative;
-  overflow: hidden;
-}
-
-.action-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: var(--gradient-sky);
-  transition: left 0.3s ease;
-  z-index: 1;
-}
-
-.action-btn i {
-  position: relative;
-  z-index: 2;
-  transition: color 0.3s ease;
-}
-
-.action-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-strong);
-  border-color: var(--primary-navy);
-}
-
-.action-btn:hover::before {
-  left: 0;
-}
-
-.action-btn:hover i {
-  color: var(--white);
-}
-
-.action-btn:active {
-  transform: translateY(0);
-}
-
-/* Main Article Content */
-.main-article {
-  padding: 40px;
-}
-
-.article-content {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: var(--dark-gray);
-  margin-bottom: 40px;
-}
-
-.article-content h1, .article-content h2, .article-content h3 {
-  color: var(--primary-navy);
-  margin: 30px 0 20px;
-  font-weight: 600;
-}
-
-.article-content p {
-  margin-bottom: 20px;
-}
-
-.article-content a {
-  color: var(--sky-blue);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.article-content a:hover {
-  color: var(--primary-navy);
-  text-decoration: underline;
-}
-
-/* Content Navigation */
-.content-navigation {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-top: 40px;
-  padding-top: 30px;
-  border-top: 2px solid var(--pale-sky);
-}
-
-.nav-item {
-  background: var(--light-gray);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: var(--shadow-light);
-  transition: all 0.3s ease;
-}
-
-.nav-item:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-medium);
-}
-
-.nav-link {
-  display: block;
-  padding: 20px;
-  text-decoration: none;
-  color: var(--dark-gray);
-  transition: all 0.3s ease;
-}
-
-.nav-link.prev {
-  text-align: left;
-  background: linear-gradient(135deg, var(--pale-sky), var(--light-gray));
-}
-
-.nav-link.next {
-  text-align: right;
-  background: linear-gradient(135deg, var(--light-gray), var(--pale-sky));
-}
-
-.nav-direction {
-  display: block;
-  font-size: 0.9rem;
-  color: var(--sky-blue);
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.nav-title {
-  display: block;
-  font-size: 1.1rem;
-  color: var(--primary-navy);
-  font-weight: 500;
-  line-height: 1.4;
-}
-
-/* Sidebar Section - Scrollable */
-.sidebar-section {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  height: fit-content;
-  position: sticky;
-  top: 20px;
-  max-height: calc(100vh - 40px);
-  overflow-y: auto;
-  padding-right: 10px;
-}
-
-/* Custom Scrollbar for Sidebar */
-.sidebar-section::-webkit-scrollbar {
-  width: 6px;
-}
-
-.sidebar-section::-webkit-scrollbar-track {
-  background: var(--light-gray);
-  border-radius: 3px;
-}
-
-.sidebar-section::-webkit-scrollbar-thumb {
-  background: var(--sky-blue);
-  border-radius: 3px;
-}
-
-.sidebar-section::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-navy);
-}
-
-/* Related Content */
-.related-content {
-  background: var(--white);
-  border-radius: 16px;
-  padding: 30px;
-  box-shadow: var(--shadow-medium);
-  border: 1px solid var(--border-color);
-}
-
-.sidebar-title {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--primary-navy);
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid var(--sky-blue);
-  position: relative;
-}
-
-.sidebar-title::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 50px;
-  height: 2px;
-  background: var(--primary-navy);
-}
-
-.related-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.related-item {
-  background: var(--light-gray);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  border: 1px solid var(--border-color);
-}
-
-.related-item:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-medium);
-  border-color: var(--sky-blue);
-}
-
-.related-link {
-  display: flex;
-  text-decoration: none;
-  color: inherit;
-  padding: 15px;
-  gap: 15px;
-}
-
-.related-thumb {
-  width: 80px;
-  height: 60px;
-  border-radius: 8px;
-  overflow: hidden;
-  flex-shrink: 0;
-  background: var(--gradient-primary);
-}
-
-.related-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.related-item:hover .related-thumb img {
-  transform: scale(1.1);
-}
-
-.related-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.related-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--primary-navy);
-  line-height: 1.3;
-  margin-bottom: 5px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.related-meta {
-  font-size: 0.85rem;
-  color: var(--medium-gray);
-}
-
-/* Newsletter Section */
-.newsletter-section {
-  background: var(--gradient-primary);
-  border-radius: 16px;
-  padding: 30px;
-  box-shadow: var(--shadow-strong);
-  color: var(--white);
-  text-align: center;
-}
-
-.newsletter-section .sidebar-title {
-  color: var(--white);
-  border-bottom-color: var(--light-sky);
-  font-size: 1.3rem;
-}
-
-.newsletter-section .sidebar-title::after {
-  background: var(--light-sky);
-}
-
-.newsletter-desc {
-  margin-bottom: 25px;
-  color: var(--pale-sky);
-  font-size: 1rem;
-}
-
-.newsletter-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.newsletter-input {
-  padding: 15px;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  background: var(--white);
-  color: var(--dark-gray);
-  box-shadow: var(--shadow-light);
-  transition: all 0.3s ease;
-}
-
-.newsletter-input:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3);
-  transform: translateY(-1px);
-}
-
-.newsletter-input::placeholder {
-  color: var(--medium-gray);
-}
-
-/* Corporate Strong Button */
-.newsletter-btn {
-  padding: 15px 25px;
-  border: none;
-  border-radius: 10px;
-  background: var(--white);
-  color: var(--primary-navy);
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-medium);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  position: relative;
-  overflow: hidden;
-}
-
-.newsletter-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: var(--gradient-sky);
-  transition: left 0.3s ease;
-  z-index: 1;
-}
-
-.newsletter-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-strong);
-}
-
-.newsletter-btn:hover::before {
-  left: 0;
-}
-
-.newsletter-btn:hover {
-  color: var(--white);
-}
-
-.newsletter-btn:active {
-  transform: translateY(0);
-}
-
-/* Breadcrumbs */
-.breadcrumb-section {
-  background: var(--light-gray);
-  padding: 20px 0;
-  border-top: 1px solid var(--border-color);
-}
-
-.breadcrumbs {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.9rem;
-}
-
-.breadcrumb-link {
-  color: var(--sky-blue);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.breadcrumb-link:hover {
-  color: var(--primary-navy);
-  text-decoration: underline;
-}
-
-.breadcrumb-sep {
-  color: var(--medium-gray);
-}
-
-.breadcrumb-current {
-  color: var(--dark-gray);
-  font-weight: 600;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .hero-content {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-  
-  .sidebar-section {
-    position: static;
-    max-height: none;
-    overflow-y: visible;
-  }
-  
-  .video-title {
-    font-size: 2rem;
-  }
-  
-  .content-header {
-    padding: 20px 25px 15px;
-  }
-  
-  .main-article {
-    padding: 25px;
-  }
-  
-  .content-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-  
-  .action-buttons {
-    align-self: stretch;
-    justify-content: center;
-  }
-  
-  .content-navigation {
-    grid-template-columns: 1fr;
-  }
-  
-  .featured-media {
-    height: 250px;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 0 15px;
-  }
-  
-  .hero-section {
-    padding: 20px 0;
-  }
-  
-  .video-title {
-    font-size: 1.8rem;
-  }
-  
-  .content-header {
-    padding: 15px 20px 10px;
-  }
-  
-  .main-article {
-    padding: 20px;
-  }
-  
-  .related-content,
-  .newsletter-section {
-    padding: 20px;
-  }
-}
-</style>
-
 <template>
-  <div class="youtube-layout">
-    <!-- Navigation -->
-    <Navigation />
+  <div class="min-h-screen bg-gray-50">
+    <Head>
+        <title>{{ seo?.title || blog.name + ' - WabePoint Blog' }}</title>
+        <meta name="description" :content="seo?.description" />
+        <meta name="keywords" :content="seo?.keywords" />
+        <link v-if="seo?.canonical" rel="canonical" :href="seo.canonical" />
+        <meta v-if="seo?.type" :property="'og:type'" :content="seo.type" />
+    </Head>
 
-    <!-- Hero Image Section - Takes up most of viewport like YouTube -->
-    <div class="hero-section">
-      <div class="container">
-        <div class="hero-content">
-          <div class="main-content">
-            <div class="featured-media">
-              <img :src="imageUrl" :alt="blog.name" class="hero-image" />
-            </div>
-            
-            <!-- Title section -->
-            <div class="content-header">
-              <h1 class="video-title">{{ blog.name }}</h1>
-              
-              <!-- Meta info row -->
-              <div class="content-meta">
-                <div class="author-info">
-                  <div class="author-avatar">
-                    <div class="avatar-circle">{{ blog.author.charAt(0).toUpperCase() }}</div>
-                  </div>
-                  <div class="author-details">
-                    <div class="author-name">{{ blog.author }}</div>
-                    <div class="publish-date">{{ formatDate(blog.created_at) }}</div>
-                  </div>
-                </div>
-                
-                <!-- Share buttons -->
-                <div class="action-buttons">
-                  <button class="action-btn" @click.prevent="shareToPlatform('facebook')" title="Share on Facebook">
-                    <i class="fab fa-facebook-f"></i>
-                  </button>
-                  <button class="action-btn" @click.prevent="shareToPlatform('twitter')" title="Share on Twitter">
-                    <i class="fab fa-twitter"></i>
-                  </button>
-                  <button class="action-btn" @click.prevent="shareToPlatform('whatsapp')" title="Share on WhatsApp">
-                    <i class="fab fa-whatsapp"></i>
-                  </button>
-                  <button class="action-btn" @click.prevent="copyLinkToClipboard" title="Copy Link">
-                    <i class="fa fa-link"></i>
-                  </button>
-                </div>
+    <Navigation :canLogin="true" :canRegister="true" />
+
+    <!-- Breadcrumbs -->
+    <div class="bg-white border-b border-gray-200">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <nav class="flex items-center gap-2 text-sm text-gray-500">
+          <Link href="/" class="hover:text-[#2596be] transition-colors">Home</Link>
+          <span>/</span>
+          <Link href="/news" class="hover:text-[#2596be] transition-colors">Blog</Link>
+          <span>/</span>
+          <span class="text-gray-800 font-medium truncate">{{ blog.name }}</span>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Article -->
+        <div class="lg:col-span-2">
+          <article class="bg-white rounded-sm border border-gray-200 overflow-hidden">
+            <img v-if="imageUrl" :src="imageUrl" :alt="blog.name" class="w-full h-64 sm:h-80 object-cover" />
+
+            <div class="p-6 sm:p-8">
+              <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                <span class="flex items-center gap-1.5">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  {{ blog.user?.name || 'Admin' }}
+                </span>
+                <span class="flex items-center gap-1.5">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  {{ formatDate(blog.created_at) }}
+                </span>
+                <span v-if="blog.category" class="inline-flex items-center px-2.5 py-0.5 rounded-sm text-xs font-medium bg-[#2596be]/10 text-[#2596be]">
+                  {{ blog.category.category_name }}
+                </span>
+              </div>
+
+              <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">{{ blog.name }}</h1>
+
+              <div class="prose prose-gray max-w-none" v-html="blog.description"></div>
+
+              <!-- Share -->
+              <div class="mt-8 pt-6 border-t border-gray-200 flex items-center gap-3">
+                <span class="text-sm font-semibold text-gray-700">Share:</span>
+                <button @click="shareToPlatform('facebook')" class="p-2 text-gray-500 hover:text-[#2596be] hover:bg-gray-100 rounded-sm transition-colors">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </button>
+                <button @click="shareToPlatform('twitter')" class="p-2 text-gray-500 hover:text-[#2596be] hover:bg-gray-100 rounded-sm transition-colors">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </button>
+                <button @click="shareToPlatform('whatsapp')" class="p-2 text-gray-500 hover:text-[#2596be] hover:bg-gray-100 rounded-sm transition-colors">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.611.611l4.458-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.386 0-4.592-.828-6.328-2.208l-.44-.352-3.24 1.085 1.085-3.24-.352-.44A9.958 9.958 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+                </button>
+                <button @click="copyLinkToClipboard" class="p-2 text-gray-500 hover:text-[#2596be] hover:bg-gray-100 rounded-sm transition-colors">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                </button>
               </div>
             </div>
+          </article>
 
-            <!-- Main content -->
-            <div class="main-article">
-              <div class="article-content" v-html="blog.description"></div>
-              
-              <!-- Navigation Posts -->
-              <div class="content-navigation">
-                <div class="nav-item" v-if="previous">
-                  <a :href="`/show/blog/${previous.slug}`" class="nav-link prev">
-                    <span class="nav-direction">← Previous</span>
-                    <span class="nav-title">{{ previous.name }}</span>
-                  </a>
-                </div>
-                <div class="nav-item" v-if="next">
-                  <a :href="`/show/blog/${next.slug}`" class="nav-link next">
-                    <span class="nav-direction">Next →</span>
-                    <span class="nav-title">{{ next.name }}</span>
-                  </a>
-                </div>
-              </div>
+          <!-- Prev / Next -->
+          <div v-if="previous || next" class="grid grid-cols-2 gap-4 mt-8">
+            <div v-if="previous" class="text-left">
+              <Link :href="route('blogs.show', previous.slug)" class="group block p-4 bg-white border border-gray-200 rounded-sm hover:border-[#2596be]/30 transition-colors">
+                <span class="text-xs font-bold uppercase tracking-wider text-[#2596be]">&larr; Previous</span>
+                <p class="mt-1 text-sm font-medium text-gray-700 group-hover:text-[#2596be] transition-colors line-clamp-2">{{ previous.name }}</p>
+              </Link>
+            </div>
+            <div v-if="next" class="text-right col-start-2">
+              <Link :href="route('blogs.show', next.slug)" class="group block p-4 bg-white border border-gray-200 rounded-sm hover:border-[#2596be]/30 transition-colors">
+                <span class="text-xs font-bold uppercase tracking-wider text-[#2596be]">Next &rarr;</span>
+                <p class="mt-1 text-sm font-medium text-gray-700 group-hover:text-[#2596be] transition-colors line-clamp-2">{{ next.name }}</p>
+              </Link>
             </div>
           </div>
+        </div>
 
-          <!-- Sidebar -->
-          <div class="sidebar-section">
-            <!-- Related Posts -->
-            <div class="related-content">
-              <h3 class="sidebar-title">Related Posts</h3>
-              <div class="related-list">
-                <article
-                  class="related-item"
-                  v-for="post in reorderedRelatedPosts"
-                  :key="post.id"
-                >
-                  <a :href="`/show/blog/${post.slug}`" class="related-link">
-                    <div class="related-thumb">
-                      <img :src="getImageUrl(post.image)" :alt="post.name" />
-                    </div>
-                    <div class="related-info">
-                      <h4 class="related-title">{{ post.name }}</h4>
-                      <div class="related-meta">
-                        <span class="related-date">{{ formatDateShort(post.created_at) }}</span>
-                      </div>
-                    </div>
-                  </a>
-                </article>
+        <!-- Sidebar -->
+        <div class="space-y-6">
+          <!-- Related Posts -->
+          <div class="bg-white rounded-sm border border-gray-200 p-6">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-gray-900 mb-4">Related Posts</h3>
+            <div v-if="reorderedRelatedPosts.length" class="space-y-4">
+              <div v-for="post in reorderedRelatedPosts" :key="post.id">
+                <Link :href="route('blogs.show', post.slug)" class="group flex gap-3">
+                  <img v-if="getImageUrl(post.image)" :src="getImageUrl(post.image)" :alt="post.name" class="w-20 h-16 object-cover rounded-sm flex-shrink-0" />
+                  <div class="flex-1 min-w-0">
+                    <h4 class="text-sm font-medium text-gray-700 group-hover:text-[#2596be] transition-colors line-clamp-2">{{ post.name }}</h4>
+                    <p class="text-xs text-gray-400 mt-1">{{ formatDateShort(post.created_at) }}</p>
+                  </div>
+                </Link>
               </div>
             </div>
+            <p v-else class="text-sm text-gray-400">No related posts yet.</p>
+          </div>
 
-            <!-- Newsletter -->
-            <div class="newsletter-section">
-              <h3 class="sidebar-title">Stay Updated</h3>
-              <p class="newsletter-desc">Get our latest posts delivered to your inbox</p>
-              <form class="newsletter-form" @submit.prevent="subscribeNewsletter">
-                <input 
-                  type="email" 
-                  placeholder="Email address" 
-                  v-model="email" 
-                  required 
-                  class="newsletter-input"
-                >
-                <button type="submit" class="newsletter-btn">Subscribe</button>
-              </form>
-            </div>
+          <!-- CTA -->
+          <div class="bg-gradient-to-br from-[#1a3a4a] via-[#1e4d64] to-[#1a3a4a] rounded-sm p-6 text-white">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-white/80 mb-2">Get WabePoint</h3>
+            <p class="text-sm text-white/70 mb-4">The all-in-one POS system for Kenyan businesses.</p>
+            <a :href="`https://wa.me/254781312070?text=${encodeURIComponent('Hi, I\'m interested in WabePoint POS. I\'d like to book a demo.')}`" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#1a3a4a] bg-white rounded-sm hover:bg-gray-100 transition-colors">
+              Book a Demo
+            </a>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Breadcrumbs -->
-    <div class="breadcrumb-section">
-      <div class="container">
-        <nav class="breadcrumbs">
-          <a href="/" class="breadcrumb-link">Home</a>
-          <span class="breadcrumb-sep">/</span>
-          <a href="/news" class="breadcrumb-link">Articles</a>
-          <span class="breadcrumb-sep">/</span>
-          <span class="breadcrumb-current">{{ blog.name }}</span>
-        </nav>
-      </div>
-    </div>
-
-    <!-- Footer -->
     <Footer />
   </div>
 </template>
 
 <script>
+import { Head, Link } from '@inertiajs/vue3'
 import Navigation from '@/Components/Navigation.vue'
 import Footer from '@/Components/Footer.vue'
 
 export default {
   props: {
     blog: { type: Object, required: true },
-    previous: { type: Object, required: false },
-    next: { type: Object, required: false },
-    blogPosts: { type: Array, required: true },
-    url: { type: String, required: true },
+    seo: { type: Object, default: () => ({}) },
+    previous: { type: Object, default: null },
+    next: { type: Object, default: null },
+    blogPosts: { type: Array, default: () => [] },
+    url: { type: String, default: '' },
   },
-  components: { Navigation, Footer },
+  components: { Head, Link, Navigation, Footer },
   data() {
     return { email: '' }
   },
@@ -819,7 +149,7 @@ export default {
       return this.getImageUrl(this.blog.image);
     },
     relatedPosts() {
-      return this.blogPosts.filter(post => post.id !== this.blog.id);
+      return (this.blogPosts || []).filter(post => post.id !== this.blog.id);
     },
     reorderedRelatedPosts() {
       if (!this.relatedPosts.length) return [];
@@ -830,9 +160,9 @@ export default {
   },
   methods: {
     getImageUrl(image) {
-      return image.startsWith("http")
-        ? image
-        : `https://app.wabepoint.com/${image.startsWith("/") ? "" : "/"}${image}`;
+      if (!image) return null;
+      if (image.startsWith("http")) return image;
+      return `https://app.wabepoint.com/${image.startsWith("/") ? "" : "/"}${image}`;
     },
     shareToPlatform(platform) {
       const url = encodeURIComponent(this.url);
@@ -845,23 +175,12 @@ export default {
       } else if (platform === "whatsapp") {
         shareUrl = `https://wa.me/?text=${title}%20${url}`;
       }
-      if (shareUrl) {
-        window.open(shareUrl, "_blank");
-      }
+      if (shareUrl) window.open(shareUrl, "_blank");
     },
     copyLinkToClipboard() {
       navigator.clipboard.writeText(this.url).then(() => {
-        this.showNotification("Link copied to clipboard!");
-      }).catch(err => {
-        console.error("Failed to copy link: ", err);
+        alert("Link copied to clipboard!");
       });
-    },
-    subscribeNewsletter() {
-      this.showNotification("Thanks for subscribing!");
-      this.email = '';
-    },
-    showNotification(message) {
-      alert(message);
     },
     formatDate(date) {
       const options = { year: "numeric", month: "long", day: "numeric" };

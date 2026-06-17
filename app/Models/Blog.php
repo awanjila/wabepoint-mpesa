@@ -4,33 +4,41 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Support\Str;
 
 class Blog extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
 
-    public function category(){
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'blog_category_id', 'id');
+    }
 
-        return $this->belongsTo(Category::class, 'blog_category_id', 'id' );
-
-    }//end of category method
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     protected static function boot()
     {
         parent::boot();
 
-        \DB::listen(function ($query) {
-            \Log::info($query->sql);
-            \Log::info($query->bindings);
-            \Log::info($query->time);
+        static::creating(function ($m) {
+            if ($m->name && !$m->slug) {
+                $m->slug = Str::slug($m->name);
+            }
+            if ($m->name && !$m->title) {
+                $m->title = $m->name;
+            }
         });
 
-
-        static::creating(function ($m) {
-            $m->slug = Str::slug($m->name); // Generate the slug from the title
+        static::updating(function ($m) {
+            if ($m->isDirty('name') && !$m->isDirty('slug')) {
+                $m->slug = Str::slug($m->name);
+            }
         });
     }
 }

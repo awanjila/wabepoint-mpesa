@@ -9,6 +9,29 @@
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="google-site-verification" content="{{ config('seo.google_site_verification', '') }}">
 
+    @php
+        $seo = $page['props']['seo'] ?? [];
+        $defaultTitle = config('app.name', 'WabePoint POS');
+        $defaultDesc = 'Modern POS and inventory management system for Kenyan businesses. Streamline sales, track stock, accept M-Pesa, and comply with KRA eTIMS.';
+        $defaultKeywords = 'pos system kenya, point of sale, inventory management, m-pesa integration, kra etims, wabepoint';
+    @endphp
+
+    <meta name="description" content="{{ $seo['description'] ?? $defaultDesc }}">
+    <meta name="keywords" content="{{ $seo['keywords'] ?? $defaultKeywords }}">
+    @if(!empty($seo['canonical']))
+    <link rel="canonical" href="{{ $seo['canonical'] }}">
+    @else
+    <link rel="canonical" href="{{ url()->current() }}">
+    @endif
+    <meta property="og:title" content="{{ $seo['title'] ?? $defaultTitle }}">
+    <meta property="og:description" content="{{ $seo['description'] ?? $defaultDesc }}">
+    <meta property="og:type" content="{{ $seo['type'] ?? 'website' }}">
+    <meta property="og:url" content="{{ $seo['canonical'] ?? url()->current() }}">
+    <meta property="og:image" content="{{ asset('images/wabepoint-og.jpg') }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seo['title'] ?? $defaultTitle }}">
+    <meta name="twitter:description" content="{{ $seo['description'] ?? $defaultDesc }}">
+
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,7 +60,7 @@
         "@type": "Organization",
         "name": "WabePoint",
         "url": "{{ url('/') }}",
-        "logo": "{{ asset('assets/images/logo/logo.png') }}",
+        "logo": "{{ asset('images/wabepoint-og.jpg') }}",
         "description": "Modern POS and inventory management system for Kenyan businesses.",
         "contactPoint": {
             "@type": "ContactPoint",

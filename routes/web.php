@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
+use App\Models\Blog;
+use App\Models\Category;
 use Inertia\Inertia;
 
 /*
@@ -26,17 +28,17 @@ use Inertia\Inertia;
 //     ]);
 // });
 
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-// require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';
 
 
 // use Inertia\Inertia;
@@ -55,8 +57,10 @@ Route::get('/', function () {
 Route::get('/pricing', function () {
     return Inertia::render('Pricing', [
         'seo' => [
-            'title' => 'Pricing - WabePoint POS & Inventory System',
-            'description' => 'Choose the perfect WabePoint plan for your business. Affordable POS and inventory management solutions.',
+            'title' => 'Pricing - WabePoint POS & Inventory System | KES 2,000/mo',
+            'description' => 'WabePoint pricing starts at KES 2,000/month with a KES 20,000 one-time setup. Complete POS, inventory, M-Pesa, and KRA eTIMS system for Kenyan businesses. No hidden fees.',
+            'keywords' => 'wabepoint pricing, pos system cost kenya, pos monthly fee kenya, pos setup fee, inventory system price, point of sale pricing kenya, etims pos cost',
+            'canonical' => 'https://wabepoint.com/pricing',
         ],
     ]);
 })->name('pricing');
@@ -141,20 +145,64 @@ Route::get('/offices', function () {
 })->name('offices');
 
 
+Route::get('/point-of-sale-system-kenya', function () {
+    return Inertia::render('Services', [
+        'seo' => [
+            'title' => 'Point of Sale System Kenya - WabePoint POS Services | eTIMS, M-Pesa, Invoicing',
+            'description' => 'WabePoint offers KRA eTIMS integration, M-Pesa Paybill, quotation & invoicing, expense tracking, and debtors & creditors management — all in one POS system for Kenyan businesses.',
+            'keywords' => 'point of sale system kenya, pos kenya, etims integration, mpesa paybill, invoicing software, expense tracking, debtors tracking, creditors management, pos system nairobi',
+            'canonical' => 'https://wabepoint.com/point-of-sale-system-kenya',
+        ],
+    ]);
+})->name('services');
+
+Route::get('/success-stories', function () {
+    $category = Category::where('slug', 'customer-stories')->orWhere('category_name', 'Customer Stories')->first();
+    $stories = collect();
+    if ($category) {
+        $stories = Blog::with('category')
+            ->where('blog_category_id', $category->id)
+            ->latest()
+            ->get()
+            ->map(fn($blog) => [
+                'id' => $blog->id,
+                'name' => $blog->name,
+                'slug' => $blog->slug,
+                'description' => $blog->description,
+                'content' => $blog->content,
+                'image' => $blog->image,
+                'created_at' => $blog->created_at,
+            ]);
+    }
+
+    return Inertia::render('SuccessStories', [
+        'stories' => $stories,
+        'seo' => [
+            'title' => 'Success Stories - WabePoint POS',
+            'description' => 'See how businesses across Kenya are growing with WabePoint POS system.',
+        ],
+    ]);
+})->name('success-stories');
+
+Route::get('/support', function () {
+    return Inertia::render('Support', [
+        'seo' => [
+            'title' => 'Support - WabePoint POS',
+            'description' => 'Get help with WabePoint POS system. Contact our support team.',
+        ],
+    ]);
+})->name('support');
+
 Route::controller(BlogController::class)->group(function(){
-   
 
     ///frontend///
-    // Route::get('show/blog/{slug}', 'ShowBlog')
-    // ->name('blogs.show')
-    // ->where('slug', '[A-Za-z0-9\-]+');
-
     Route::get('/blogs/{slug}', [BlogController::class, 'show'])->name('blogs.show');
-    // Route::get('blogs', 'IndexOfClientBlogs')->name('blogs.index');
-
-    // Route::get('news', 'IndexOfClientBlogs')->name('blogs.index');
-
     Route::get('news', [BlogController::class, 'index'])->name('blogs.index');
 
    });
+
+// Admin routes
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('blogs', \App\Http\Controllers\Admin\BlogController::class);
+});
 

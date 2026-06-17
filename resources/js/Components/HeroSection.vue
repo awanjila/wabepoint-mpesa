@@ -30,7 +30,7 @@
                         </a>
                         <a href="https://app.wabepoint.com/register" 
                            class="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-base font-medium rounded-lg text-white hover:bg-white hover:text-gray-900 transform hover:scale-105 transition-all duration-200">
-                            Start Free Trial
+                            Start Free Trialff
                         </a>
                     </div>
 
