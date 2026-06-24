@@ -52,7 +52,7 @@
 
               <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">{{ blog.name }}</h1>
 
-              <div class="prose prose-gray max-w-none" v-html="blog.description"></div>
+              <div class="prose prose-gray max-w-none whitespace-pre-wrap" v-html="blog.description"></div>
 
               <!-- Share -->
               <div class="mt-8 pt-6 border-t border-gray-200 flex items-center gap-3">
@@ -162,7 +162,7 @@ export default {
     getImageUrl(image) {
       if (!image) return null;
       if (image.startsWith("http")) return image;
-      return `https://app.wabepoint.com/${image.startsWith("/") ? "" : "/"}${image}`;
+      return `https://app.wabepoint.com/${image.replace(/^\/+/, '')}`;
     },
     shareToPlatform(platform) {
       const url = encodeURIComponent(this.url);

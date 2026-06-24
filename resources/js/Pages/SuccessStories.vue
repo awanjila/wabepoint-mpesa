@@ -11,7 +11,7 @@ defineProps({
 const getImage = (image) => {
     if (!image) return null
     if (/^https?:\/\//.test(image)) return image
-    return image
+    return `https://app.wabepoint.com/${image.replace(/^\/+/, '')}`
 }
 </script>
 

@@ -27,6 +27,12 @@ const imagePreview = ref(null)
 const processing = ref(false)
 const errors = ref({})
 
+const getImageUrl = (image) => {
+    if (!image) return null
+    if (/^https?:\/\//.test(image)) return image
+    return `https://app.wabepoint.com/${image.replace(/^\/+/, '')}`
+}
+
 const generateSlug = () => {
     form.value.slug = form.value.name
         .toLowerCase()
@@ -198,7 +204,7 @@ const submit = () => {
 
                             <div v-if="blog.image && !imagePreview" class="md:col-span-2">
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Current Image</label>
-                                <img :src="blog.image" :alt="blog.name" class="h-32 w-auto object-cover rounded-sm border" />
+                                <img :src="getImageUrl(blog.image)" :alt="blog.name" class="h-32 w-auto object-cover rounded-sm border" />
                             </div>
                         </div>
                     </div>
