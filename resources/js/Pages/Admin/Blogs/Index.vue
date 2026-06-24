@@ -10,7 +10,7 @@ defineProps({
 const getImageUrl = (image) => {
     if (!image) return null
     if (/^https?:\/\//.test(image)) return image
-    return `https://app.wabepoint.com/${image.replace(/^\/+/, '')}`
+    return `/${image.replace(/^\/+/, '')}`
 }
 
 const confirmDelete = ref(null)

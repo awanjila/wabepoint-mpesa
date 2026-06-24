@@ -162,7 +162,7 @@ export default {
     getImageUrl(image) {
       if (!image) return null;
       if (image.startsWith("http")) return image;
-      return `https://app.wabepoint.com/${image.replace(/^\/+/, '')}`;
+      return `/${image.replace(/^\/+/, '')}`;
     },
     shareToPlatform(platform) {
       const url = encodeURIComponent(this.url);

@@ -107,7 +107,7 @@ export default {
     getImageUrl(image) {
       if (!image) return '/images/default-placeholder.jpg';
       if (/^https?:\/\//.test(image)) return image;
-      return `https://app.wabepoint.com/${image.replace(/^\/+/, '')}`;
+      return `/${image.replace(/^\/+/, '')}`;
     },
     formatDate(date) {
       const options = { day: '2-digit', month: 'short', year: 'numeric' };
