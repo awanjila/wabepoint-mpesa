@@ -91,7 +91,7 @@
         </div>
 
         <!-- Sidebar -->
-        <div class="space-y-6">
+        <div class="space-y-6 sticky top-8 self-start">
           <!-- Related Posts -->
           <div class="bg-white rounded-sm border border-gray-200 p-6">
             <h3 class="text-sm font-bold uppercase tracking-wider text-gray-900 mb-4">Related Posts</h3>
