@@ -52,6 +52,8 @@ class BlogController extends Controller
             $validated['image'] = 'storage/' . $path;
         }
 
+        unset($validated['image_file']);
+
         $validated['user_id'] = auth()->id();
         $validated['slug'] = $validated['slug'] ?: Str::slug($validated['name']);
 
@@ -96,6 +98,8 @@ class BlogController extends Controller
             $path = $request->file('image_file')->store('blogs', 'public');
             $validated['image'] = 'storage/' . $path;
         }
+
+        unset($validated['image_file']);
 
         if (!$validated['slug']) {
             $validated['slug'] = Str::slug($validated['name']);
