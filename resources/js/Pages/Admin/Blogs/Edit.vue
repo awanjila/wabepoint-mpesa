@@ -2,11 +2,21 @@
 import { ref } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 const props = defineProps({
     blog: Object,
     categories: Array,
 })
+
+const toolbarOptions = [
+    [{ header: [1, 2, 3, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['blockquote', 'code-block'],
+    ['link', 'clean'],
+]
 
 const form = ref({
     name: props.blog.name || '',
@@ -191,9 +201,8 @@ const submit = () => {
 
                             <div class="md:col-span-2">
                                 <label class="block text-sm font-semibold text-gray-700 mb-1">Description (Main Content)</label>
-                                <textarea v-model="form.description" rows="16"
-                                          class="w-full rounded-sm border-gray-300 shadow-sm focus:border-[#2596be] focus:ring focus:ring-[#2596be]/20 text-sm font-mono"></textarea>
-                                <p class="text-xs text-gray-400 mt-1">HTML content is supported</p>
+                                <QuillEditor v-model:content="form.description" contentType="html" :options="{ modules: { toolbar: toolbarOptions }, theme: 'snow' }" style="height: 400px; margin-bottom: 50px;" />
+                                <p class="text-xs text-gray-400 mt-1">Rich text content with headings, styling, and links</p>
                             </div>
 
                             <div class="md:col-span-2">
