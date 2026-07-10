@@ -149,6 +149,68 @@ function toggleFaq(index) {
           </div>
         </div>
       </div>
+
+      <!-- Installation Fee Notice -->
+      <div class="mt-8 max-w-2xl mx-auto text-center bg-white border-2 border-[#e5e7eb] rounded-sm p-6">
+        <p class="text-sm text-gray-600">
+          <span class="font-bold text-gray-900">All plans require a one-time installation fee.</span>
+          We handle hardware setup, M-Pesa &amp; KRA eTIMS API configuration, product upload, and staff training.
+        </p>
+        <div class="mt-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm">
+          <span class="font-bold text-gray-900">KES 20,000</span>
+          <span class="text-gray-400">/</span>
+          <span class="text-gray-600">per branch &middot; one-time</span>
+          <span class="text-gray-300 hidden sm:inline">|</span>
+          <a :href="whatsappUrl" target="_blank" rel="noopener noreferrer" class="text-[#2596be] hover:underline font-semibold">Learn what's included &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Setup Tiers -->
+    <section class="py-16 bg-white">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <span class="inline-block px-3 py-1 bg-[#2596be]/10 text-[#2596be] text-xs font-bold uppercase tracking-widest rounded-sm mb-3 border border-[#2596be]/20">SETUP FEE</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900">Installation Fee by Business Size</h2>
+          <p class="mt-2 text-gray-600">One-time charge per branch. Includes remote setup, integration, and training.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-white rounded-sm border-2 border-[#e5e7eb] hover:border-[#2596be]/50 transition-all p-6 text-center">
+            <h4 class="text-sm font-bold text-[#2596be] uppercase tracking-wider mb-1">Small Shop</h4>
+            <p class="text-xs text-gray-400 mb-3">Cosmetics, Salon, Retail</p>
+            <span class="text-2xl font-extrabold text-gray-900">KES 20,000</span>
+            <ul class="mt-4 space-y-2 text-xs text-gray-600 text-left">
+              <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Hardware configuration</li>
+              <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Product catalogue upload</li>
+              <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Staff training session</li>
+            </ul>
+          </div>
+          <div class="bg-white rounded-sm border-2 border-[#2596be] shadow-md p-6 text-center relative scale-[1.02]">
+            <span class="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2 bg-white text-[10px] font-bold uppercase tracking-wider text-[#2596be] border border-[#2596be]/30 rounded-sm">Most Common</span>
+            <h4 class="text-sm font-bold text-[#2596be] uppercase tracking-wider mb-1">Medium Business</h4>
+            <p class="text-xs text-gray-400 mb-3">Hardware, Paint Shop, Restaurant</p>
+            <span class="text-2xl font-extrabold text-gray-900">KES 20,000</span>
+            <ul class="mt-4 space-y-2 text-xs text-gray-600 text-left">
+              <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Everything in Small Shop</li>
+              <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>M-Pesa Paybill API setup</li>
+              <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>KRA eTIMS registration</li>
+            </ul>
+          </div>
+          <div class="bg-white rounded-sm border-2 border-[#e5e7eb] hover:border-[#2596be]/50 transition-all p-6 text-center">
+            <h4 class="text-sm font-bold text-[#2596be] uppercase tracking-wider mb-1">Multi-Branch</h4>
+            <p class="text-xs text-gray-400 mb-3">Supermarket, Wholesale, Chain</p>
+            <span class="text-2xl font-extrabold text-gray-900">Custom Quote</span>
+            <ul class="mt-4 space-y-2 text-xs text-gray-600 text-left">
+              <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Bulk hardware deployment</li>
+              <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Multi-branch configuration</li>
+              <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Dedicated onboarding manager</li>
+            </ul>
+          </div>
+        </div>
+        <div class="text-center mt-6">
+          <a :href="whatsappUrl" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 bg-[#2596be] text-white text-sm font-bold uppercase tracking-wider rounded-sm hover:bg-[#1e7a9e] transition-colors text-center">Get a Custom Quote</a>
+        </div>
+      </div>
     </section>
 
     <!-- Feature Comparison -->
