@@ -12,7 +12,7 @@
 
     <!-- Breadcrumbs -->
     <div class="bg-white border-b border-gray-200">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <nav class="flex items-center gap-2 text-sm text-gray-500">
           <Link href="/" class="hover:text-[#2596be] transition-colors">Home</Link>
           <span>/</span>
@@ -24,12 +24,12 @@
     </div>
 
     <!-- Main Content -->
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Article -->
         <div class="lg:col-span-2">
           <article class="bg-white rounded-sm border border-gray-200 overflow-hidden">
-            <img v-if="imageUrl" :src="imageUrl" :alt="blog.name" class="w-full h-64 sm:h-80 object-cover" />
+            <img v-if="imageUrl" :src="imageUrl" :alt="blog.name" class="w-full h-64 sm:h-96 object-cover" />
 
             <div class="p-6 sm:p-8">
               <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
@@ -52,7 +52,7 @@
 
               <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">{{ blog.name }}</h1>
 
-              <div class="prose prose-gray max-w-none" v-html="blog.description"></div>
+              <div class="prose prose-slate prose-lg max-w-none blog-content" v-html="blog.description"></div>
 
               <!-- Share -->
               <div class="mt-8 pt-6 border-t border-gray-200 flex items-center gap-3">
@@ -193,3 +193,23 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.blog-content img {
+  border-radius: 0.375rem;
+}
+.blog-content iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.375rem;
+  border: 0;
+}
+.blog-content blockquote {
+  font-style: normal;
+  border-color: #2596be;
+}
+.blog-content a {
+  color: #2596be;
+  text-decoration: underline;
+}
+</style>
