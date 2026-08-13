@@ -9,6 +9,5 @@ WabePoint | Online PoS | Inventory Management System
 @endphp
 
 @section('content')
-{{$blogs}}
     <blog :blogs='@json($blogs ?? [])'></blog>
 @endsection

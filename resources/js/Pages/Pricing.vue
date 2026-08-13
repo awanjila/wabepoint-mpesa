@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import Navigation from '@/Components/Navigation.vue'
 import Footer from '@/Components/Footer.vue'
@@ -10,39 +10,131 @@ const whatsappNumber = '254781312070'
 const whatsappMessage = encodeURIComponent("Hi, I'm interested in WabePoint POS. I'd like to book a demo.")
 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
 
-const plans = [
+const planGroups = [
   {
-    name: 'Core',
-    price: '2,000',
-    desc: 'Basic POS with sales, receipt printing, stock tracking, reports, and offline support.',
-    features: [
-      'Sales & POS', 'Receipt printing', 'Stock tracking',
-      'Basic reports', 'Offline support', 'Multiple payment methods',
+    id: 'general',
+    name: 'General',
+    tagline: 'POS, inventory & reports for any business',
+    plans: [
+      {
+        name: 'Core',
+        price: '1,500',
+        desc: 'Basic POS with sales, receipt printing, stock tracking, reports, and offline support.',
+        features: [
+          'Sales & POS', 'Receipt printing', 'Stock tracking',
+          'Basic reports', 'Offline support', 'Multiple payment methods',
+        ],
+        highlighted: false,
+      },
+      {
+        name: 'Flow',
+        price: '3,500',
+        desc: 'Everything in Core + M-Pesa STK Push (payment prompts), faster checkout, and payment tracking.',
+        features: [
+          'Everything in Core', 'M-Pesa STK Push', 'Faster checkout',
+          'Payment tracking', 'Customer management', 'Priority support',
+        ],
+        highlighted: true,
+        badge: 'Most Popular',
+      },
+      {
+        name: 'Comply',
+        price: '6,000',
+        desc: 'Everything in Flow + KRA (eTIMS) integration, tax records, and compliance reports.',
+        features: [
+          'Everything in Flow', 'KRA eTIMS integration', 'Tax records',
+          'Compliance reports', 'Advanced analytics', 'API access', 'Dedicated support',
+        ],
+        highlighted: false,
+      },
     ],
-    highlighted: false,
   },
   {
-    name: 'Flow',
-    price: '3,500',
-    desc: 'Everything in Core + M-Pesa STK Push, faster checkout, and payment tracking.',
-    features: [
-      'Everything in Core', 'M-Pesa STK Push', 'Faster checkout',
-      'Payment tracking', 'Customer management', 'Priority support',
+    id: 'restaurant',
+    name: 'Restaurant',
+    tagline: 'Menu management, tables & faster checkout',
+    plans: [
+      {
+        name: 'Base',
+        price: '2,000',
+        desc: 'Everything in Wabepoint Core plus faster checkout, better reporting, and priority support.',
+        features: [
+          'Everything in Wabepoint Core', 'Sales & POS', 'Receipt printing',
+          'Stock tracking', 'Faster checkout', 'Basic reports',
+          'Offline support', 'Multiple payment methods', 'Priority support',
+        ],
+        highlighted: false,
+      },
     ],
-    highlighted: true,
-    badge: 'Most Popular',
   },
   {
-    name: 'Comply',
-    price: '6,000',
-    desc: 'Everything in Flow + KRA eTIMS integration, tax records, and compliance reports.',
-    features: [
-      'Everything in Flow', 'KRA eTIMS integration', 'Tax records',
-      'Compliance reports', 'Advanced analytics', 'API access', 'Dedicated support',
+    id: 'hotel',
+    name: 'Hotel',
+    tagline: 'Restaurant POS, room bookings & housekeeping',
+    plans: [
+      {
+        name: 'Hotel',
+        price: '5,000',
+        desc: 'Everything you need to run a hotel in one system: restaurant POS, room bookings, housekeeping, and guest management.',
+        features: [
+          'Restaurant POS & menu management', 'Room bookings & reservations',
+          'Housekeeping management', 'Guest & customer management',
+          'Receipt & invoice printing', 'Daily reports & analytics', 'Offline support',
+        ],
+        highlighted: false,
+      },
+      {
+        name: 'Hotel Plus',
+        price: '8,000',
+        desc: 'Everything in Wabepoint Hotel plus WhatsApp messaging to staff, housekeeping alerts, advanced analytics, and priority support.',
+        features: [
+          'Everything in Wabepoint Hotel', 'WhatsApp messaging to staff',
+          'Housekeeping task alerts', 'M-Pesa STK Push',
+          'Advanced analytics & occupancy reports', 'Multi-user access', 'Priority support',
+        ],
+        highlighted: true,
+        badge: 'Recommended',
+      },
     ],
-    highlighted: false,
+  },
+  {
+    id: 'distributor',
+    name: 'Distributor',
+    tagline: 'Agent sales, field reps & branch operations',
+    plans: [
+      {
+        name: 'Distributor',
+        price: '3,500',
+        desc: 'Everything you need to manage distribution: agent sales, field representatives, agent inventory, and branch operations.',
+        features: [
+          'Distribution & agent sales', 'Field representatives management',
+          'Agent inventory tracking', 'Branches management', 'Stock movements',
+          'Receipt & invoice printing', 'Offline support',
+        ],
+        highlighted: false,
+      },
+      {
+        name: 'Distributor Plus',
+        price: '5,000',
+        desc: 'Everything in Wabepoint Distributor plus M-Pesa STK Push, advanced analytics, and priority support.',
+        features: [
+          'Everything in Wabepoint Distributor', 'M-Pesa STK Push',
+          'Advanced analytics & reports', 'Multi-branch support',
+          'Customer management', 'Priority support',
+        ],
+        highlighted: true,
+        badge: 'Recommended',
+      },
+    ],
   },
 ]
+
+const activeGroup = ref('all')
+
+const visibleGroups = computed(() => {
+  if (activeGroup.value === 'all') return planGroups
+  return planGroups.filter(g => g.id === activeGroup.value)
+})
 
 const compareFeatures = [
   { name: 'Sales & POS', core: true, flow: true, comply: true },
@@ -63,6 +155,10 @@ const compareFeatures = [
 ]
 
 const faqs = [
+  {
+    q: 'Which plan should I choose?',
+    a: 'Pick the plan for your business type — General (Core, Flow, Comply), Restaurant (Base), Hotel (Hotel, Hotel Plus), or Distributor (Distributor, Distributor Plus). You can upgrade or downgrade anytime.',
+  },
   {
     q: 'What is the difference between Core, Flow, and Comply?',
     a: 'Core is basic POS with sales, stock tracking, and offline support. Flow adds M-Pesa STK Push for customer payment prompts. Comply includes KRA eTIMS integration for tax compliance and advanced analytics.',
@@ -93,6 +189,12 @@ const openFaq = ref(null)
 function toggleFaq(index) {
   openFaq.value = openFaq.value === index ? null : index
 }
+
+function gridClass(count) {
+  if (count === 1) return 'grid md:grid-cols-1 gap-6 max-w-md mx-auto'
+  if (count === 2) return 'grid md:grid-cols-2 gap-6 max-w-4xl mx-auto'
+  return 'grid md:grid-cols-3 gap-6'
+}
 </script>
 
 <template>
@@ -118,33 +220,52 @@ function toggleFaq(index) {
 
     <!-- Pricing Cards -->
     <section class="max-w-6xl mx-auto px-4 -mt-12 relative z-20 pb-16">
-      <div class="grid md:grid-cols-3 gap-6">
-        <div v-for="plan in plans" :key="plan.name"
-             class="relative bg-white rounded-sm border-2 transition-all duration-150 flex flex-col"
-             :class="plan.highlighted ? 'border-[#2596be] shadow-md scale-[1.02]' : 'border-[#e5e7eb] hover:border-[#2596be]/50'">
-          <div v-if="plan.badge" class="absolute top-0 right-0 bg-[#2596be] text-white px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-bl-sm">{{ plan.badge }}</div>
-          <div class="p-6 flex flex-col flex-1">
-            <h3 class="text-lg font-extrabold uppercase tracking-wide"
-                :class="plan.highlighted ? 'text-[#2596be]' : 'text-gray-900'">WabePoint {{ plan.name }}</h3>
-            <div class="mt-4">
-              <span class="text-4xl font-extrabold text-gray-900">KES {{ plan.price }}</span>
-              <span class="text-sm text-gray-500">/month</span>
-            </div>
-            <p class="mt-1 text-xs text-gray-500">{{ plan.desc }}</p>
-            <ul class="mt-6 space-y-3 flex-1">
-              <li v-for="item in plan.features" :key="item" class="flex items-start text-sm text-gray-700">
-                <svg class="h-4 w-4 text-[#2596be] mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                {{ item }}
-              </li>
-            </ul>
-            <div class="mt-6 pt-6 border-t border-gray-100">
-              <a :href="whatsappUrl" target="_blank" rel="noopener noreferrer"
-                 class="block w-full text-center py-2.5 text-xs font-bold uppercase tracking-wider transition-all duration-150 rounded-sm border-2"
-                 :class="plan.highlighted
-                   ? 'text-white bg-[#2596be] border-[#2596be] hover:bg-[#1e7a9e]'
-                   : 'text-[#2596be] border-[#2596be] hover:bg-[#2596be] hover:text-white'">
-                Get {{ plan.name }}
-              </a>
+      <!-- Business Type Tabs -->
+      <div class="flex flex-wrap items-center justify-center gap-2 mb-10">
+        <button v-for="group in [{ id: 'all', name: 'All Plans' }, ...planGroups]"
+                :key="group.id"
+                @click="activeGroup = group.id"
+                class="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-sm border-2 transition-all duration-150"
+                :class="activeGroup === group.id
+                  ? 'bg-[#2596be] border-[#2596be] text-white shadow-md'
+                  : 'bg-white border-[#e5e7eb] text-gray-600 hover:border-[#2596be]/50 hover:text-[#2596be]'">
+          {{ group.name }}
+        </button>
+      </div>
+
+      <div v-for="group in visibleGroups" :key="group.id" class="mb-12 last:mb-0">
+        <div class="text-center mb-8">
+          <h2 class="text-xl md:text-2xl font-extrabold text-gray-900 uppercase tracking-wide">{{ group.name }} Plans</h2>
+          <p class="mt-1 text-sm text-gray-500">{{ group.tagline }}</p>
+        </div>
+        <div :class="gridClass(group.plans.length)">
+          <div v-for="plan in group.plans" :key="plan.name"
+               class="relative bg-white rounded-sm border-2 transition-all duration-150 flex flex-col"
+               :class="plan.highlighted ? 'border-[#2596be] shadow-md scale-[1.02]' : 'border-[#e5e7eb] hover:border-[#2596be]/50'">
+            <div v-if="plan.badge" class="absolute top-0 right-0 bg-[#2596be] text-white px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-bl-sm">{{ plan.badge }}</div>
+            <div class="p-6 flex flex-col flex-1">
+              <h3 class="text-lg font-extrabold uppercase tracking-wide"
+                  :class="plan.highlighted ? 'text-[#2596be]' : 'text-gray-900'">WabePoint {{ plan.name }}</h3>
+              <div class="mt-4">
+                <span class="text-4xl font-extrabold text-gray-900">KES {{ plan.price }}</span>
+                <span class="text-sm text-gray-500">/month</span>
+              </div>
+              <p class="mt-1 text-xs text-gray-500">{{ plan.desc }}</p>
+              <ul class="mt-6 space-y-3 flex-1">
+                <li v-for="item in plan.features" :key="item" class="flex items-start text-sm text-gray-700">
+                  <svg class="h-4 w-4 text-[#2596be] mt-0.5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  {{ item }}
+                </li>
+              </ul>
+              <div class="mt-6 pt-6 border-t border-gray-100">
+                <a :href="whatsappUrl" target="_blank" rel="noopener noreferrer"
+                   class="block w-full text-center py-2.5 text-xs font-bold uppercase tracking-wider transition-all duration-150 rounded-sm border-2"
+                   :class="plan.highlighted
+                     ? 'text-white bg-[#2596be] border-[#2596be] hover:bg-[#1e7a9e]'
+                     : 'text-[#2596be] border-[#2596be] hover:bg-[#2596be] hover:text-white'">
+                  Get {{ plan.name }}
+                </a>
+              </div>
             </div>
           </div>
         </div>

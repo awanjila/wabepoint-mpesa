@@ -55,7 +55,7 @@ class BlogController extends Controller
         ];
 
         return Inertia::render('Blogs/Index', [ 
-            'blogs' => Blog::latest()->get(),
+            'blogs' => Blog::with('category')->latest()->get(),
             'seo' => $seo,
         ]);
     }//endmethod

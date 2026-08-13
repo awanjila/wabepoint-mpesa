@@ -1,80 +1,68 @@
 <template>
-  <div class="youtube-layout">
-    <!-- Parallax Header -->
-    <div class="page-title parallax parallax1">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="page-title-content text-center">
-              <div class="breadcrumbs">
-                <ul>
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">Blog</a></li>
-                </ul>
-              </div>
-              <div class="page-title-heading">
-                <h2>Our Blog</h2>
-              </div>
+  <div class="bg-gray-50 min-h-screen">
+    <section class="bg-gradient-to-r from-[#1a3a4a] via-[#1e4d64] to-[#2596be] py-14 sm:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <nav class="flex items-center justify-center gap-2 text-sm text-white/70 mb-4">
+          <Link href="/" class="hover:text-white transition-colors">Home</Link>
+          <span>/</span>
+          <span class="text-white font-medium">Blog</span>
+        </nav>
+        <h1 class="text-3xl sm:text-4xl font-bold text-white mb-3">Our Blog</h1>
+        <p class="text-white/80 max-w-2xl mx-auto text-sm sm:text-base">
+          POS and inventory management tips, business insights and industry news from WabePoint.
+        </p>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div v-if="sortedBlogs.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article v-for="item in paginatedBlogs" :key="item.slug"
+                 class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md border border-gray-100 transition-shadow flex flex-col">
+          <Link :href="route('blogs.show', item.slug)" class="block h-48 overflow-hidden bg-gray-100">
+            <img :src="getImageUrl(item.image)" :alt="item.name" class="w-full h-full object-cover" loading="lazy">
+          </Link>
+          <div class="p-5 flex flex-col flex-1">
+            <span class="text-xs font-semibold uppercase tracking-wider text-[#2596be] mb-2">
+              {{ item.category ? item.category.category_name : 'Uncategorized' }}
+            </span>
+            <h2 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
+              <Link :href="route('blogs.show', item.slug)" class="hover:text-[#2596be] transition-colors">{{ item.name }}</Link>
+            </h2>
+            <div class="flex items-center gap-2 text-xs text-gray-400 mt-auto pt-3">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              <time :datetime="item.created_at">{{ formatDate(item.created_at) }}</time>
+              <span class="ml-auto text-[#2596be] font-semibold text-xs">Read More &rarr;</span>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Blog Grid -->
-    <div class="main-blog-grid3 pushed-down">
-      <div class="container">
-        <div class="blog-grid-list">
-          <div v-for="item in paginatedBlogs" :key="item.slug" class="blog-card">
-            <article class="post mb-mgtop0">
-              <div class="post-border">
-                <div class="featured-post">
-                  <img :src="getImageUrl(item.image)" :alt="item.name" class="blog-banner">
-                </div>
-                <div class="content-post">
-                  <div class="post-title">
-                    <span><Link :href="'#'">{{ item.category ? item.category.category_name : 'Uncategorized' }}</Link></span>
-                  </div>
-                  <div class="post-content">
-                    <h2><Link :href="route('blogs.show', item.slug)" class="blog-title">{{ item.name }}</Link></h2>
-                  </div>
-                  <div class="post-meta">
-                    <span><Link :href="'#'"><time :datetime="item.created_at">{{ formatDate(item.created_at) }}</time></Link></span>
-                  </div>
-                  <div class="post-button">
-                    <Link :href="route('blogs.show', item.slug)">READ MORE <i class="fa fa-long-arrow-right" aria-hidden="true"></i></Link>
-                  </div>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
+        </article>
       </div>
 
-      <!-- Pagination -->
-      <div class="blog-pagination">
-        <ul class="flat-pagination">
-          <li class="prev" :class="{ disabled: currentPage === 1 }">
-            <a @click.prevent="goToPage(currentPage - 1)" class="hvr-shutter-out-horizontal" :class="{ disabled: currentPage === 1 }">
-              <i class="fa fa-angle-left" aria-hidden="true"></i>
-            </a>
-          </li>
-          <li v-for="page in totalPages" :key="page">
-            <a @click.prevent="goToPage(page)" :class="{ active: currentPage === page }" class="hvr-shutter-out-horizontal">{{ page }}</a>
-          </li>
-          <li class="next" :class="{ disabled: currentPage === totalPages }">
-            <a @click.prevent="goToPage(currentPage + 1)" class="hvr-shutter-out-horizontal" :class="{ disabled: currentPage === totalPages }">
-              <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </a>
-          </li>
-        </ul>
+      <div v-else class="text-center py-20">
+        <p class="text-gray-500">No blog posts yet. Check back soon!</p>
       </div>
-    </div>
+
+      <nav v-if="totalPages > 1" class="flex items-center justify-center gap-1 mt-10">
+        <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1"
+                class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] disabled:opacity-40 disabled:cursor-not-allowed">
+          &larr;
+        </button>
+        <button v-for="page in totalPages" :key="page" @click="goToPage(page)"
+                :class="currentPage === page ? 'bg-[#2596be] text-white' : 'bg-white text-gray-600 hover:bg-gray-100'"
+                class="w-9 h-9 text-sm font-medium rounded-md border border-gray-200 transition-colors">
+          {{ page }}
+        </button>
+        <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages"
+                class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] disabled:opacity-40 disabled:cursor-not-allowed">
+          &rarr;
+        </button>
+      </nav>
+    </section>
   </div>
 </template>
 
 <script>
-import Navigation from '@/Components/Navigation.vue';
 import { Link } from '@inertiajs/vue3';
 
 export default {
@@ -96,11 +84,10 @@ export default {
     },
     paginatedBlogs() {
       const start = (this.currentPage - 1) * this.blogsPerPage;
-      const end = start + this.blogsPerPage;
-      return this.sortedBlogs.slice(start, end);
+      return this.sortedBlogs.slice(start, start + this.blogsPerPage);
     },
     totalPages() {
-      return Math.ceil(this.sortedBlogs.length / this.blogsPerPage);
+      return Math.max(1, Math.ceil(this.sortedBlogs.length / this.blogsPerPage));
     }
   },
   methods: {
@@ -116,223 +103,12 @@ export default {
     goToPage(page) {
       if (page > 0 && page <= this.totalPages) {
         this.currentPage = page;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
   },
   components: {
-    Navigation,
     Link
   },
 };
 </script>
-
-
-
-<style scoped>
-.youtube-layout {
-  background: #fff;
-  min-height: 100vh;
-}
-
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-.page-title {
-  padding: 40px 0;
-}
-
-.page-title-content {
-  text-align: center;
-  color: #fff;
-}
-
-.breadcrumbs ul {
-  list-style: none;
-  padding: 0;
-  display: inline-block;
-}
-
-.breadcrumbs li {
-  display: inline;
-  margin-right: 5px;
-}
-
-.breadcrumbs a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.page-title-heading h2 {
-  font-size: 36px;
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-  .page-title-heading h2 {
-    font-size: 28px;
-  }
-}
-
-.pushed-down {
-  margin-top: 20px;
-}
-
-.blog-grid-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-top: 32px;
-}
-
-@media (max-width: 1024px) {
-  .blog-grid-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 768px) {
-  .blog-grid-list {
-    grid-template-columns: 1fr;
-  }
-}
-
-.blog-card {
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  transition: box-shadow 0.2s;
-  overflow: hidden;
-}
-.blog-card:hover {
-  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-}
-
-.post {
-  margin-bottom: 0;
-  border: none;
-  border-radius: 0;
-  background: none;
-  overflow: visible;
-  transition: none;
-}
-
-.post-border {
-  padding: 0;
-}
-
-.featured-post {
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-  border-radius: 12px 12px 0 0;
-  background: #f9f9f9;
-}
-
-.blog-banner {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.content-post {
-  padding: 20px 18px 18px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.post-title {
-  font-weight: bold;
-  margin-bottom: 4px;
-  font-size: 13px;
-  color: #606060;
-}
-
-.blog-title {
-  font-size: 1.2em;
-  margin-bottom: 8px;
-  color: #0f0f0f;
-  text-decoration: none;
-  font-weight: 600;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.blog-title:hover {
-  text-decoration: underline;
-  color: #065fd4;
-}
-
-.post-meta {
-  font-size: 0.95em;
-  color: #606060;
-  margin-bottom: 6px;
-}
-
-.post-button a {
-  color: #065fd4;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 13px;
-}
-
-.post-button a:hover {
-  text-decoration: underline;
-}
-
-.blog-pagination {
-  text-align: center;
-  margin-top: 32px;
-}
-
-.flat-pagination {
-  list-style: none;
-  padding: 0;
-  display: inline-flex;
-}
-
-.flat-pagination li {
-  margin: 0 5px;
-}
-
-.flat-pagination a {
-  padding: 10px 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  text-decoration: none;
-  color: #333;
-  background: #fff;
-  transition: background 0.15s, color 0.15s;
-}
-
-.flat-pagination a.active {
-  background-color: #065fd4;
-  color: white;
-}
-
-.flat-pagination a.disabled {
-  pointer-events: none;
-  color: #ccc;
-  background: #f5f5f5;
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 0 12px;
-  }
-  .blog-grid-list {
-    gap: 12px;
-  }
-  .content-post {
-    padding: 14px 10px 12px 10px;
-  }
-}
-</style>
