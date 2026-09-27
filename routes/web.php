@@ -43,12 +43,14 @@ require __DIR__.'/auth.php';
 
 // use Inertia\Inertia;
 
+Route::get('sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index']);
+
 Route::get('/', function () {
     return Inertia::render('Landing', [
         'seo' => [
             'title' => 'WabePoint - Modern POS & Inventory Management System',
-            'description' => 'WabePoint is a powerful cloud-based POS and inventory management system for businesses. Track sales, manage stock, generate invoices, and grow your business with real-time analytics.',
-            'keywords' => 'pos system, inventory management, online pos, stock tracking, business management, sales analytics, wabepoint, point of sale kenya, mpesa integration',
+            'description' => 'WabePoint is a powerful cloud-based POS and inventory management system for businesses in Kenya. Track sales, manage stock, generate invoices, and grow your business with real-time analytics. Built for cosmetics, hardware, paint shops, restaurants, offices, and gas companies.',
+            'keywords' => 'pos system, inventory management, online pos, stock tracking, business management, sales analytics, wabepoint, point of sale kenya, mpesa integration, gas shop pos, lpg pos, gas company management kenya',
             'canonical' => 'https://wabepoint.com',
         ],
     ]);
@@ -69,7 +71,9 @@ Route::get('/about', function () {
     return Inertia::render('About', [
         'seo' => [
             'title' => 'About Us - WabePoint POS & Inventory System',
-            'description' => 'Learn about WabePoint and our mission to simplify business management for everyone.',
+            'description' => 'Learn about WabePoint and our mission to simplify business management for Kenyan businesses. We build POS and inventory systems for cosmetics, hardware, paint shops, restaurants, offices, and gas companies.',
+            'keywords' => 'about wabepoint, wabepoint company, pos company kenya, inventory software provider, point of sale team nairobi, wabepoint mission',
+            'canonical' => 'https://wabepoint.com/about',
         ],
     ]);
 })->name('about');
@@ -78,7 +82,9 @@ Route::get('/partners', function () {
     return Inertia::render('Partners', [
         'seo' => [
             'title' => 'Partners - WabePoint POS & Inventory System',
-            'description' => 'Join the WabePoint partner network and grow your business together.',
+            'description' => 'Join the WabePoint partner network and grow your business together. Resell and recommend the leading POS and inventory system for Kenyan businesses.',
+            'keywords' => 'wabepoint partners, pos reseller kenya, pos partner program, inventory software partners, pos distributor nairobi',
+            'canonical' => 'https://wabepoint.com/partners',
         ],
     ]);
 })->name('partners');
@@ -88,6 +94,8 @@ Route::get('/resources', function () {
         'seo' => [
             'title' => 'Resources - WabePoint POS & Inventory System',
             'description' => 'Explore WabePoint guides, tutorials, and documentation to get the most out of your POS system.',
+            'keywords' => 'pos guides, inventory tutorials, pos documentation, business management tips, wabepoint resources, kenya business guides',
+            'canonical' => 'https://wabepoint.com/resources',
         ],
     ]);
 })->name('resources');
@@ -109,6 +117,7 @@ Route::get('/cosmetics', function () {
         'seo' => [
             'title' => 'Cosmetics POS System Kenya - WabePoint | Beauty Shop Management',
             'description' => 'POS system built for cosmetics and beauty shops in Kenya. Track products by shade and expiry, manage stock, handle M-Pesa, and see daily profits.',
+            'keywords' => 'cosmetics pos kenya, beauty shop pos, cosmetics inventory software, salon point of sale, mpesa cosmetics payments, beauty shop stock management nairobi, wabepoint cosmetics',
             'canonical' => 'https://wabepoint.com/cosmetics',
         ],
     ]);
@@ -119,6 +128,7 @@ Route::get('/hardware', function () {
         'seo' => [
             'title' => 'Hardware POS System Kenya - WabePoint | Construction Store Management',
             'description' => 'POS system built for hardware stores in Kenya. Manage bulk stock, variant pricing, track sales, handle M-Pesa, and see daily profits.',
+            'keywords' => 'hardware store pos kenya, hardware shop point of sale, building materials inventory software, hardware stock management nairobi, construction store pos, mpesa hardware payments, wabepoint hardware',
             'canonical' => 'https://wabepoint.com/hardware',
         ],
     ]);
@@ -129,6 +139,7 @@ Route::get('/restaurants', function () {
         'seo' => [
             'title' => 'Restaurant POS System Kenya - WabePoint | Food Service Management',
             'description' => 'POS system built for restaurants in Kenya. Menu management, table orders, kitchen receipts, M-Pesa payments, and daily sales reports.',
+            'keywords' => 'restaurant pos kenya, cafe point of sale, restaurant management system nairobi, kitchen pos, food service inventory, mpesa restaurant payments, wabepoint restaurants',
             'canonical' => 'https://wabepoint.com/restaurants',
         ],
     ]);
@@ -139,10 +150,23 @@ Route::get('/offices', function () {
         'seo' => [
             'title' => 'Office Invoice System Kenya - WabePoint | Business Expense Management',
             'description' => 'Invoicing and expense tracking system for offices in Kenya. Generate professional invoices, track POs, manage expenses, and reconcile payments.',
+            'keywords' => 'office invoice software kenya, invoicing system nairobi, expense tracking software, purchase order tracking, mpesa invoicing, business expense management kenya, wabepoint offices',
             'canonical' => 'https://wabepoint.com/offices',
         ],
     ]);
 })->name('offices');
+
+Route::get('/gas', function () {
+    return Inertia::render('Landing/GasPOS', [
+        'seo' => [
+            'title' => 'Gas Shop POS System Kenya - WabePoint | LPG Cylinder & Refill Management',
+            'description' => 'POS system built for gas companies and LPG retailers in Kenya. Track cylinder stock and deposits, manage refills, take M-Pesa and cash, record credit sales, and see daily profits. Works offline. Setup in 1 hour.',
+            'keywords' => 'gas shop pos, gas company pos kenya, lpg management system, cooking gas pos, lpg cylinder tracking, gas refill software, gas outlet management, mpesa gas payments, gas shop stock management nairobi, wabepoint gas, pos for gas companies, lpg distributor software',
+            'canonical' => 'https://wabepoint.com/gas',
+            'type' => 'website',
+        ],
+    ]);
+})->name('gas');
 
 
 Route::get('/point-of-sale-system-kenya', function () {
@@ -178,8 +202,10 @@ Route::get('/success-stories', function () {
     return Inertia::render('SuccessStories', [
         'stories' => $stories,
         'seo' => [
-            'title' => 'Success Stories - WabePoint POS',
-            'description' => 'See how businesses across Kenya are growing with WabePoint POS system.',
+            'title' => 'Success Stories - WabePoint POS | Businesses Growing in Kenya',
+            'description' => 'See how cosmetics shops, hardware stores, paint shops, restaurants, offices, and gas companies across Kenya are growing with WabePoint POS system.',
+            'keywords' => 'wabepoint success stories, pos case studies kenya, business growth stories, pos system reviews kenya, wabepoint customers',
+            'canonical' => 'https://wabepoint.com/success-stories',
         ],
     ]);
 })->name('success-stories');
@@ -188,7 +214,9 @@ Route::get('/support', function () {
     return Inertia::render('Support', [
         'seo' => [
             'title' => 'Support - WabePoint POS',
-            'description' => 'Get help with WabePoint POS system. Contact our support team.',
+            'description' => 'Get help with WabePoint POS system. Contact our support team for setup, training, and troubleshooting.',
+            'keywords' => 'wabepoint support, pos support kenya, pos help, pos setup assistance, kenya pos customer service',
+            'canonical' => 'https://wabepoint.com/support',
         ],
     ]);
 })->name('support');

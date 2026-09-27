@@ -49,6 +49,7 @@ const industries = [
     { title: 'Hardware', icon: 'wrench', desc: 'Manage nails, paints, cement, and bulk stock with variant pricing', link: '/hardware' },
     { title: 'Paint Shops', icon: 'paint', desc: 'Handle paint fractions, colour mixing, and litre-by-litre tracking', link: '/paintshops' },
     { title: 'Restaurants', icon: 'food', desc: 'Menu management, table orders, and kitchen receipt printing', link: '/restaurants' },
+    { title: 'Gas & LPG', icon: 'flame', desc: 'Track cylinder stock, refills, and deposits for gas retailers', link: '/gas' },
     { title: 'Offices', icon: 'doc', desc: 'Professional invoice generation, PO tracking, and expense recording', link: '/offices' },
 ];
 </script>
@@ -92,9 +93,9 @@ const industries = [
                         <span class="text-[#5ec4e8]">EVERY BUSINESS</span>
                     </h1>
 
-                    <p class="mt-5 text-base sm:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
-                        POS, inventory, invoicing, and payments — built for cosmetics, hardware, paint shops, restaurants, and offices. Track every sale, manage stock, reconcile M-Pesa, and generate invoices from one dashboard.
-                    </p>
+<p class="mt-5 text-base sm:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
+                            POS, inventory, invoicing, and payments — built for cosmetics, hardware, paint shops, restaurants, gas companies, and offices. Track every sale, manage stock, reconcile M-Pesa, and generate invoices from one dashboard.
+                        </p>
 
                     <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
                         <a :href="whatsappUrl" target="_blank" rel="noopener noreferrer"
@@ -116,7 +117,7 @@ const industries = [
 
                     <div class="mt-10 grid grid-cols-4 gap-4 max-w-lg mx-auto">
                         <div class="text-center">
-                            <div class="text-2xl font-extrabold text-white">5+</div>
+                            <div class="text-2xl font-extrabold text-white">6+</div>
                             <div class="mt-0.5 text-xs text-white/50 font-medium uppercase tracking-wide">Industries</div>
                         </div>
                         <div class="text-center">
@@ -145,13 +146,14 @@ const industries = [
                     <p class="mt-2 text-gray-600">One system that adapts to how you sell</p>
                 </div>
 
-                <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
                     <Link v-for="item in industries" :key="item.title" :href="item.link" class="group bg-white rounded-sm p-5 border-2 border-[#e5e7eb] hover:border-[#2596be] hover:shadow-md transition-all duration-150 text-center block">
                         <div class="w-10 h-10 mx-auto mb-3 bg-[#2596be]/10 rounded-sm flex items-center justify-center border border-[#2596be]/20 group-hover:bg-[#2596be] group-hover:border-[#2596be] transition-all duration-150">
                             <svg v-if="item.icon === 'sparkles'" class="w-5 h-5 text-[#2596be] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                             <svg v-else-if="item.icon === 'wrench'" class="w-5 h-5 text-[#2596be] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                             <svg v-else-if="item.icon === 'paint'" class="w-5 h-5 text-[#2596be] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
                             <svg v-else-if="item.icon === 'food'" class="w-5 h-5 text-[#2596be] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                            <svg v-else-if="item.icon === 'flame'" class="w-5 h-5 text-[#2596be] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21c-4.97 0-9-4.03-9-9 0-4.5 3.5-7.5 6-11 .5 3.5 2 5 4 5 3 0 3-2 2-4.5 5 1.5 8 5.5 8 10 0 4.97-4.03 9-9 9z"/></svg>
                             <svg v-else class="w-5 h-5 text-[#2596be] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         </div>
                         <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide">{{ item.title }}</h3>

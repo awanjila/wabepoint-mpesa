@@ -52,6 +52,7 @@ class BlogController extends Controller
             'title' => 'Blog - WabePoint POS & Inventory Management Tips',
             'description' => 'Stay updated with the latest POS and inventory management tips, business insights, and industry news from WabePoint.',
             'keywords' => 'pos blog, inventory tips, business management, retail insights, wabepoint blog',
+            'canonical' => 'https://wabepoint.com/news',
         ];
 
         return Inertia::render('Blogs/Index', [ 

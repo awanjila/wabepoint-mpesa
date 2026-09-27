@@ -118,7 +118,13 @@ const scrollToSection = (sectionId) => {
                                             </svg>
                                             <span class="text-xs font-semibold text-gray-700 group-hover:text-[#2596be]">Restaurants</span>
                                         </a>
-                                        <a href="/offices" class="flex flex-col items-center gap-1 px-3 py-3 text-center rounded-sm hover:bg-gray-50 hover:text-[#2596be] transition-colors group col-span-2 max-w-[140px] mx-auto">
+                                        <a href="/gas" class="flex flex-col items-center gap-1 px-3 py-3 text-center rounded-sm hover:bg-gray-50 hover:text-[#2596be] transition-colors group">
+                                            <svg class="w-7 h-7 text-gray-500 group-hover:text-[#2596be] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21c-4.97 0-9-4.03-9-9 0-4.5 3.5-7.5 6-11 .5 3.5 2 5 4 5 3 0 3-2 2-4.5 5 1.5 8 5.5 8 10 0 4.97-4.03 9-9 9z"/>
+                                            </svg>
+                                            <span class="text-xs font-semibold text-gray-700 group-hover:text-[#2596be]">Gas</span>
+                                        </a>
+                                        <a href="/offices" class="flex flex-col items-center gap-1 px-3 py-3 text-center rounded-sm hover:bg-gray-50 hover:text-[#2596be] transition-colors group">
                                             <svg class="w-7 h-7 text-gray-500 group-hover:text-[#2596be] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                             </svg>
@@ -300,6 +306,7 @@ const scrollToSection = (sectionId) => {
                         <a href="/hardware" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Hardware</a>
                         <a href="/paintshops" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Paint Shops</a>
                         <a href="/restaurants" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Restaurants</a>
+                        <a href="/gas" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Gas</a>
                         <a href="/offices" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Offices</a>
                         <div class="border-t border-gray-100 mt-2 pt-2"></div>
                         <div class="pl-4 pr-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-400">Our Services</div>

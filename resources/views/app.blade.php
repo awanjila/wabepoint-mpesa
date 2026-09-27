@@ -12,8 +12,8 @@
     @php
         $seo = $page['props']['seo'] ?? [];
         $defaultTitle = config('app.name', 'WabePoint POS');
-        $defaultDesc = 'Modern POS and inventory management system for Kenyan businesses. Streamline sales, track stock, accept M-Pesa, and comply with KRA eTIMS.';
-        $defaultKeywords = 'pos system kenya, point of sale, inventory management, m-pesa integration, kra etims, wabepoint';
+        $defaultDesc = 'Modern POS and inventory management system for Kenyan businesses. Streamline sales, track stock, accept M-Pesa, and comply with KRA eTIMS. Built for cosmetics, hardware, paint shops, restaurants, gas companies, and offices.';
+        $defaultKeywords = 'pos system kenya, point of sale, inventory management, m-pesa integration, kra etims, wabepoint, gas shop pos, lpg pos kenya, gas company management';
     @endphp
 
     <meta name="description" content="{{ $seo['description'] ?? $defaultDesc }}">
@@ -61,7 +61,7 @@
         "name": "WabePoint",
         "url": "{{ url('/') }}",
         "logo": "{{ asset('images/wabepoint-og.jpg') }}",
-        "description": "Modern POS and inventory management system for Kenyan businesses.",
+        "description": "Modern POS and inventory management system for Kenyan businesses. Serving cosmetics, hardware, paint shops, restaurants, gas companies, and offices.",
         "contactPoint": {
             "@type": "ContactPoint",
             "telephone": "+254-781-312-070",
