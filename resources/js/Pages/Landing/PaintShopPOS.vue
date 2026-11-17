@@ -2,37 +2,51 @@
 import { ref, onMounted } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import Footer from '@/Components/Footer.vue';
+import OtherIndustries from '@/Components/OtherIndustries.vue';
+import IndustryAbout from '@/Components/IndustryAbout.vue';
+import IndustryCarousel from '@/Components/IndustryCarousel.vue';
 
 const props = defineProps({
     seo: Object,
+    industry: Object,
 });
 
 const faqs = [
     {
-        question: 'Does it work without stable internet?',
-        answer: 'Yes. Sales are recorded locally and sync automatically when internet returns. Zero downtime for your shop.',
+        question: 'Can it track paint sold in fractions?',
+        answer: 'Yes. Sell and track 1/16, 1/8, 1/4, and 1/2 litre portions, plus full tins, with automatic pricing for each size.',
     },
     {
-        question: 'Is it easy for staff to learn?',
-        answer: 'Tap-to-add products, one-tap payment selection. Any cashier can start selling within 5 minutes of training.',
+        question: 'Does stock go down automatically when paint is sold?',
+        answer: 'Yes. Each sale reduces stock for that exact paint size, so you always know what is left on the shelf.',
     },
     {
-        question: 'How long does setup take?',
-        answer: 'Products loaded, cashiers configured, and your team trained in under 1 hour. We handle everything.',
+        question: 'Can I sell paint on credit and track what customers owe?',
+        answer: 'Yes. Record each credit sale against the customer, see who owes what, and collect the balance when they return.',
     },
     {
-        question: 'Does it handle paint fractions?',
-        answer: 'Yes. 1/16, 1/8, 1/4, 1/2, 1 litre and all standard paint sizes with automatic pricing for each fraction.',
+        question: 'Does it work when the internet is down?',
+        answer: 'Yes. Sales are recorded locally and sync automatically when the internet returns, so your shop keeps selling.',
     },
     {
-        question: 'Can it track M-Pesa and cash separately?',
-        answer: 'Yes. Each payment method is tracked independently. See daily totals per method and reconcile in seconds.',
+        question: 'Can I track M-Pesa and cash separately?',
+        answer: 'Yes. Each payment method is tracked independently, so you can see daily totals per method and reconcile in seconds.',
     },
     {
-        question: 'What devices does it work on?',
-        answer: 'Any tablet, phone, or computer with a browser. Install as a PWA for a native app experience.',
+        question: 'How much does it cost?',
+        answer: 'Pricing starts at KES 2,000 per month with a KES 20,000 one-time setup. Message us on WhatsApp for a demo and a quote for your shop.',
     },
 ];
+
+const faqSchema = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+});
 
 const openFaq = ref(null);
 function toggleFaq(index) {
@@ -71,17 +85,18 @@ onMounted(() => {
 
 <template>
     <Head>
-        <title>{{ seo?.title || 'Paint Shop POS System Kenya - WabePoint' }}</title>
+        <title>{{ seo?.title || 'Point of Sale System for Paint Shop in Kenya | WabePoint' }}</title>
+        <script type="application/ld+json" v-html="faqSchema"></script>
         <meta name="description" :content="seo?.description" />
         <meta name="keywords" :content="seo?.keywords" />
         <meta property="og:title" :content="seo?.title" />
         <meta property="og:description" :content="seo?.description" />
         <meta property="og:type" :content="seo?.type || 'website'" />
-        <meta property="og:url" :content="seo?.canonical || 'https://wabepoint.com/paintshops'" />
+        <meta property="og:url" :content="seo?.canonical || 'https://wabepoint.com/pos-system-paintshop-kenya'" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" :content="seo?.title" />
         <meta name="twitter:description" :content="seo?.description" />
-        <link rel="canonical" :href="seo?.canonical || 'https://wabepoint.com/paintshops'" />
+        <link rel="canonical" :href="seo?.canonical || 'https://wabepoint.com/pos-system-paintshop-kenya'" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -106,7 +121,7 @@ onMounted(() => {
                             <span class="font-medium">support@wabepoint.com</span>
                         </a>
                     </div>
-                    <span class="hidden sm:block text-white/80 font-medium tracking-wide">PAINT SHOP POS SYSTEM</span>
+                    <span class="hidden sm:block text-white/80 font-medium tracking-wide">POINT OF SALE SYSTEM FOR PAINT SHOP IN KENYA</span>
                 </div>
             </div>
         </div>
@@ -528,6 +543,10 @@ onMounted(() => {
         </section>
 
         <!-- ==================== FOOTER ==================== -->
+        <IndustryAbout :industry="industry" />
+        <IndustryCarousel />
+        <OtherIndustries :current="industry.slug" />
+
         <Footer />
     </div>
 </template>

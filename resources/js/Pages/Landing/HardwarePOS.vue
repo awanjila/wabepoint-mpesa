@@ -2,8 +2,12 @@
 import { ref } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import Footer from '@/Components/Footer.vue';
+import IndustryMedia from '@/Components/IndustryMedia.vue';
+import OtherIndustries from '@/Components/OtherIndustries.vue';
+import IndustryAbout from '@/Components/IndustryAbout.vue';
+import IndustryCarousel from '@/Components/IndustryCarousel.vue';
 
-defineProps({ seo: Object });
+defineProps({ seo: Object, industry: Object });
 
 const whatsappNumber = '254781312070';
 const whatsappMessage = encodeURIComponent('Hi, I\'m interested in WabePoint POS for my hardware store.');
@@ -11,10 +15,22 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
 const faqs = [
     { question: 'Can it handle bulk stock and piece-count items?', answer: 'Yes. Track items by piece, kilogram, metre, or unit. Stock decreases automatically with each sale.' },
-    { question: 'Does it work without internet?', answer: 'Yes. Sales are recorded locally and sync automatically when internet returns.' },
-    { question: 'How long does setup take?', answer: 'Products loaded and staff trained in under 1 hour. We handle everything remotely.' },
-    { question: 'Can it track M-Pesa and cash separately?', answer: 'Yes. Each payment method is tracked independently. Reconcile in seconds.' },
+    { question: 'Can I set different prices for each size or grade?', answer: 'Yes. Each variant can have its own price, and stock is tracked separately for every variant.' },
+    { question: 'Can contractors and regular customers buy on credit?', answer: 'Yes. Record credit sales against each customer and track what they owe until it is paid.' },
+    { question: 'Does it work without internet?', answer: 'Yes. Sales are recorded locally and sync automatically when the internet returns.' },
+    { question: 'Can I track M-Pesa and cash separately?', answer: 'Yes. Each payment method is tracked independently, so you can reconcile in seconds at the end of the day.' },
+    { question: 'How much does it cost?', answer: 'Pricing starts at KES 2,000 per month with a KES 20,000 one-time setup. Message us on WhatsApp for a demo and a quote for your shop.' },
 ];
+
+const faqSchema = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+});
 
 const openFaq = ref(null);
 function toggleFaq(i) { openFaq.value = openFaq.value === i ? null : i; }
@@ -22,9 +38,10 @@ function toggleFaq(i) { openFaq.value = openFaq.value === i ? null : i; }
 
 <template>
     <Head>
-        <title>{{ seo?.title || 'Hardware POS System Kenya - WabePoint' }}</title>
+        <title>{{ seo?.title || 'Point of Sale System for Hardware Store in Kenya | WabePoint' }}</title>
+        <script type="application/ld+json" v-html="faqSchema"></script>
         <meta name="description" :content="seo?.description" />
-        <link rel="canonical" :href="seo?.canonical || 'https://wabepoint.com/hardware'" />
+        <link rel="canonical" :href="seo?.canonical || 'https://wabepoint.com/pos-system-hardware-kenya'" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -44,7 +61,7 @@ function toggleFaq(i) { openFaq.value = openFaq.value === i ? null : i; }
                             <span class="font-medium">support@wabepoint.com</span>
                         </a>
                     </div>
-                    <span class="hidden sm:block text-white/80 font-medium tracking-wide">HARDWARE POS SYSTEM</span>
+                    <span class="hidden sm:block text-white/80 font-medium tracking-wide">POINT OF SALE SYSTEM FOR HARDWARE STORE IN KENYA</span>
                 </div>
             </div>
         </div>
@@ -139,6 +156,11 @@ function toggleFaq(i) { openFaq.value = openFaq.value === i ? null : i; }
                 <p class="mt-4 text-xs text-white/40">Free demo and setup. No commitment.</p>
             </div>
         </section>
+
+        <IndustryMedia :industry="industry" />
+        <IndustryAbout :industry="industry" />
+        <IndustryCarousel />
+        <OtherIndustries :current="industry.slug" />
 
         <Footer />
     </div>

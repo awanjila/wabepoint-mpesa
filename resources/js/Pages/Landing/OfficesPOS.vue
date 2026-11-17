@@ -2,19 +2,35 @@
 import { ref } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import Footer from '@/Components/Footer.vue';
+import IndustryMedia from '@/Components/IndustryMedia.vue';
+import OtherIndustries from '@/Components/OtherIndustries.vue';
+import IndustryAbout from '@/Components/IndustryAbout.vue';
+import IndustryCarousel from '@/Components/IndustryCarousel.vue';
 
-defineProps({ seo: Object });
+defineProps({ seo: Object, industry: Object });
 
 const whatsappNumber = '254781312070';
 const whatsappMessage = encodeURIComponent('Hi, I\'m interested in WabePoint invoicing for my office.');
 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
 const faqs = [
-    { question: 'Can I generate professional invoices?', answer: 'Yes. Create and send professional invoices with your business branding. Track paid, pending, and overdue invoices.' },
-    { question: 'Does it work without internet?', answer: 'Yes. Invoices are created locally and sync automatically when internet returns.' },
-    { question: 'How long does setup take?', answer: 'Your business profile, branding, and templates configured in under 1 hour. We handle everything.' },
-    { question: 'Can I track expenses and POs?', answer: 'Yes. Record purchase orders, track expenses by category, and see profit and loss reports.' },
+    { question: 'Can I generate professional invoices?', answer: 'Yes. Create and send invoices with your business branding, and track which are paid, pending, or overdue.' },
+    { question: 'Does it connect to KRA eTIMS?', answer: 'Yes. WabePoint includes KRA eTIMS integration, and our team configures it with you during setup.' },
+    { question: 'Can I track purchase orders and expenses?', answer: 'Yes. Record purchase orders, track expenses by category, and see profit and loss reports.' },
+    { question: 'Does it work without internet?', answer: 'Yes. Invoices are created locally and sync automatically when the internet returns.' },
+    { question: 'Can I reconcile payments against invoices?', answer: 'Yes. Record payments against each invoice and see what is still outstanding at any time.' },
+    { question: 'How much does it cost?', answer: 'Pricing starts at KES 2,000 per month with a KES 20,000 one-time setup. Message us on WhatsApp for a demo and a quote for your office.' },
 ];
+
+const faqSchema = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+});
 
 const openFaq = ref(null);
 function toggleFaq(i) { openFaq.value = openFaq.value === i ? null : i; }
@@ -22,9 +38,10 @@ function toggleFaq(i) { openFaq.value = openFaq.value === i ? null : i; }
 
 <template>
     <Head>
-        <title>{{ seo?.title || 'Office Invoice System Kenya - WabePoint' }}</title>
+        <title>{{ seo?.title || 'Point of Sale System for Office in Kenya | WabePoint' }}</title>
+        <script type="application/ld+json" v-html="faqSchema"></script>
         <meta name="description" :content="seo?.description" />
-        <link rel="canonical" :href="seo?.canonical || 'https://wabepoint.com/offices'" />
+        <link rel="canonical" :href="seo?.canonical || 'https://wabepoint.com/pos-system-office-kenya'" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -44,7 +61,7 @@ function toggleFaq(i) { openFaq.value = openFaq.value === i ? null : i; }
                             <span class="font-medium">support@wabepoint.com</span>
                         </a>
                     </div>
-                    <span class="hidden sm:block text-white/80 font-medium tracking-wide">OFFICE INVOICE SYSTEM</span>
+                    <span class="hidden sm:block text-white/80 font-medium tracking-wide">POINT OF SALE SYSTEM FOR OFFICE IN KENYA</span>
                 </div>
             </div>
         </div>
@@ -139,6 +156,11 @@ function toggleFaq(i) { openFaq.value = openFaq.value === i ? null : i; }
                 <p class="mt-4 text-xs text-white/40">Free demo and setup. No commitment.</p>
             </div>
         </section>
+
+        <IndustryMedia :industry="industry" />
+        <IndustryAbout :industry="industry" />
+        <IndustryCarousel />
+        <OtherIndustries :current="industry.slug" />
 
         <Footer />
     </div>

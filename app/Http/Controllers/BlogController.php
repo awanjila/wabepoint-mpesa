@@ -52,7 +52,7 @@ class BlogController extends Controller
             'title' => 'Blog - WabePoint POS & Inventory Management Tips',
             'description' => 'Stay updated with the latest POS and inventory management tips, business insights, and industry news from WabePoint.',
             'keywords' => 'pos blog, inventory tips, business management, retail insights, wabepoint blog',
-            'canonical' => 'https://wabepoint.com/news',
+            'canonical' => 'https://wabepoint.com/pos-systems-in-kenya-news',
         ];
 
         return Inertia::render('Blogs/Index', [ 
@@ -68,10 +68,12 @@ class BlogController extends Controller
     $previous = Blog::where('id', '<', $blog->id)->orderBy('id', 'desc')->first();
     $next = Blog::where('id', '>', $blog->id)->orderBy('id', 'asc')->first();
 
+    $headline = $blog->title ?: $blog->name;
+
     $seo = [
-        'title' => $blog->title . ' - WabePoint Blog',
-        'description' => Str::limit(strip_tags($blog->content), 160),
-        'keywords' => $blog->category?->name . ', ' . Str::slug($blog->title),
+        'title' => $blog->meta_title ?: $headline . ' - WabePoint Blog',
+        'description' => $blog->meta_description ?: Str::limit(strip_tags($blog->content), 160),
+        'keywords' => $blog->category?->name . ', ' . Str::slug($headline),
         'canonical' => url()->current(),
         'type' => 'article',
     ];

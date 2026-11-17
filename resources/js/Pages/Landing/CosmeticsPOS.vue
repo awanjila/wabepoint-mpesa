@@ -2,19 +2,35 @@
 import { ref } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import Footer from '@/Components/Footer.vue';
+import IndustryMedia from '@/Components/IndustryMedia.vue';
+import OtherIndustries from '@/Components/OtherIndustries.vue';
+import IndustryAbout from '@/Components/IndustryAbout.vue';
+import IndustryCarousel from '@/Components/IndustryCarousel.vue';
 
-defineProps({ seo: Object });
+defineProps({ seo: Object, industry: Object });
 
 const whatsappNumber = '254781312070';
 const whatsappMessage = encodeURIComponent('Hi, I\'m interested in WabePoint POS for my cosmetics shop.');
 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
 const faqs = [
-    { question: 'Can it track products by shade and colour?', answer: 'Yes. Create variants for each shade, colour, or size. Stock levels are tracked independently per variant.' },
-    { question: 'Does it work without internet?', answer: 'Yes. Sales are recorded locally and sync automatically when internet returns.' },
-    { question: 'How long does setup take?', answer: 'Products loaded and staff trained in under 1 hour. We handle everything remotely.' },
-    { question: 'Can it track M-Pesa and cash separately?', answer: 'Yes. Each payment method is tracked independently. Reconcile in seconds.' },
+    { question: 'Can I track products by shade, colour, or size?', answer: 'Yes. Create a variant for each shade, colour, or size. Stock is tracked separately for each variant.' },
+    { question: 'Can I track expiry dates?', answer: 'Yes. Record expiry dates on your products so you can see what is close to expiring before it goes unsold.' },
+    { question: 'Can customers buy on credit?', answer: 'Yes. Record credit sales against each customer and track what they owe until it is paid.' },
+    { question: 'Does it work without internet?', answer: 'Yes. Sales are recorded locally and sync automatically when the internet returns.' },
+    { question: 'Can I track M-Pesa and cash separately?', answer: 'Yes. Each payment method is tracked independently, so you can reconcile in seconds at the end of the day.' },
+    { question: 'How much does it cost?', answer: 'Pricing starts at KES 2,000 per month with a KES 20,000 one-time setup. Message us on WhatsApp for a demo and a quote for your shop.' },
 ];
+
+const faqSchema = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+});
 
 const openFaq = ref(null);
 function toggleFaq(i) { openFaq.value = openFaq.value === i ? null : i; }
@@ -22,9 +38,10 @@ function toggleFaq(i) { openFaq.value = openFaq.value === i ? null : i; }
 
 <template>
     <Head>
-        <title>{{ seo?.title || 'Cosmetics POS System Kenya - WabePoint' }}</title>
+        <title>{{ seo?.title || 'Point of Sale System for Cosmetics Shop in Kenya | WabePoint' }}</title>
+        <script type="application/ld+json" v-html="faqSchema"></script>
         <meta name="description" :content="seo?.description" />
-        <link rel="canonical" :href="seo?.canonical || 'https://wabepoint.com/cosmetics'" />
+        <link rel="canonical" :href="seo?.canonical || 'https://wabepoint.com/pos-system-cosmetics-kenya'" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -44,7 +61,7 @@ function toggleFaq(i) { openFaq.value = openFaq.value === i ? null : i; }
                             <span class="font-medium">support@wabepoint.com</span>
                         </a>
                     </div>
-                    <span class="hidden sm:block text-white/80 font-medium tracking-wide">COSMETICS POS SYSTEM</span>
+                    <span class="hidden sm:block text-white/80 font-medium tracking-wide">POINT OF SALE SYSTEM FOR COSMETICS SHOP IN KENYA</span>
                 </div>
             </div>
         </div>
@@ -139,6 +156,11 @@ function toggleFaq(i) { openFaq.value = openFaq.value === i ? null : i; }
                 <p class="mt-4 text-xs text-white/40">Free demo and setup. No commitment.</p>
             </div>
         </section>
+
+        <IndustryMedia :industry="industry" />
+        <IndustryAbout :industry="industry" />
+        <IndustryCarousel />
+        <OtherIndustries :current="industry.slug" />
 
         <Footer />
     </div>

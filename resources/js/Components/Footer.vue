@@ -55,11 +55,7 @@
                 <div>
                     <h3 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Point of Sale</h3>
                     <ul class="space-y-2.5">
-                        <li><a href="/cosmetics" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Cosmetics</a></li>
-                        <li><a href="/hardware" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Hardware</a></li>
-                        <li><a href="/paintshops" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Paint Shops</a></li>
-                        <li><a href="/restaurants" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Restaurants</a></li>
-                        <li><a href="/offices" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Offices</a></li>
+                        <li v-for="item in $page.props.industries" :key="item.id"><a :href="item.path" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">{{ item.label }}</a></li>
                     </ul>
                 </div>
 
@@ -71,7 +67,7 @@
                         <li><a href="/pricing" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Pricing</a></li>
                         <li><a href="/about" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">About Us</a></li>
                         <li><a href="/success-stories" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Success Stories</a></li>
-                        <li><a href="/news" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Blog</a></li>
+                        <li><a href="/pos-systems-in-kenya-news" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Blog</a></li>
                         <li><a href="/support" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Support</a></li>
                     </ul>
                 </div>

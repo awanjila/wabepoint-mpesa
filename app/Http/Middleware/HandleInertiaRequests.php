@@ -34,6 +34,18 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'industries' => collect(config('industries'))
+                ->map(fn ($industry, $id) => [
+                    'id' => $id,
+                    'label' => $industry['label'],
+                    'summary' => $industry['summary'] ?? '',
+                    'cover' => $industry['cover'] ?? null,
+                    'video' => $industry['media']['video'] ?? null,
+                    'slug' => $industry['slug'],
+                    'path' => '/'.$industry['slug'],
+                    'icon' => $industry['icon'],
+                ])
+                ->values(),
         ];
     }
 }

@@ -2,9 +2,14 @@
 import { ref } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import Footer from '@/Components/Footer.vue';
+import IndustryMedia from '@/Components/IndustryMedia.vue';
+import OtherIndustries from '@/Components/OtherIndustries.vue';
+import IndustryAbout from '@/Components/IndustryAbout.vue';
+import IndustryCarousel from '@/Components/IndustryCarousel.vue';
 
 const props = defineProps({
     seo: Object,
+    industry: Object,
 });
 
 const faqs = [
@@ -34,6 +39,16 @@ const faqs = [
     },
 ];
 
+const faqSchema = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+});
+
 const openFaq = ref(null);
 function toggleFaq(index) {
     openFaq.value = openFaq.value === index ? null : index;
@@ -46,17 +61,18 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
 <template>
     <Head>
-        <title>{{ seo?.title || 'Gas Shop POS System Kenya - WabePoint' }}</title>
+        <title>{{ seo?.title || 'Point of Sale System for Gas and LPG in Kenya | WabePoint' }}</title>
+        <script type="application/ld+json" v-html="faqSchema"></script>
         <meta name="description" :content="seo?.description" />
         <meta name="keywords" :content="seo?.keywords" />
         <meta property="og:title" :content="seo?.title" />
         <meta property="og:description" :content="seo?.description" />
         <meta property="og:type" :content="seo?.type || 'website'" />
-        <meta property="og:url" :content="seo?.canonical || 'https://wabepoint.com/gas'" />
+        <meta property="og:url" :content="seo?.canonical || 'https://wabepoint.com/pos-system-lpg-gas-kenya'" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" :content="seo?.title" />
         <meta name="twitter:description" :content="seo?.description" />
-        <link rel="canonical" :href="seo?.canonical || 'https://wabepoint.com/gas'" />
+        <link rel="canonical" :href="seo?.canonical || 'https://wabepoint.com/pos-system-lpg-gas-kenya'" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -81,7 +97,7 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
                             <span class="font-medium">support@wabepoint.com</span>
                         </a>
                     </div>
-                    <span class="hidden sm:block text-white/80 font-medium tracking-wide">GAS SHOP POS SYSTEM</span>
+                    <span class="hidden sm:block text-white/80 font-medium tracking-wide">POINT OF SALE SYSTEM FOR GAS AND LPG IN KENYA</span>
                 </div>
             </div>
         </div>
@@ -388,6 +404,11 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
         </section>
 
         <!-- ==================== FOOTER ==================== -->
+        <IndustryMedia :industry="industry" />
+        <IndustryAbout :industry="industry" />
+        <IndustryCarousel />
+        <OtherIndustries :current="industry.slug" />
+
         <Footer />
     </div>
 </template>

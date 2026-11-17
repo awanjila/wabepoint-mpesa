@@ -4,14 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title inertia>{{ config('app.name', 'WabePoint POS') }}</title>
-
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="google-site-verification" content="{{ config('seo.google_site_verification', '') }}">
-
     @php
         $seo = $page['props']['seo'] ?? [];
         $defaultTitle = config('app.name', 'WabePoint POS');
+    @endphp
+
+    <title inertia>{{ $seo['title'] ?? $defaultTitle }}</title>
+
+    <meta name="robots" content="{{ $seo['robots'] ?? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' }}">
+    <meta name="google-site-verification" content="{{ config('seo.google_site_verification', '') }}">
+
+    @php
         $defaultDesc = 'Modern POS and inventory management system for Kenyan businesses. Streamline sales, track stock, accept M-Pesa, and comply with KRA eTIMS. Built for cosmetics, hardware, paint shops, restaurants, gas companies, and offices.';
         $defaultKeywords = 'pos system kenya, point of sale, inventory management, m-pesa integration, kra etims, wabepoint, gas shop pos, lpg pos kenya, gas company management';
     @endphp

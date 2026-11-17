@@ -16,7 +16,7 @@
         <nav class="flex items-center gap-2 text-sm text-gray-500">
           <Link href="/" class="hover:text-[#2596be] transition-colors">Home</Link>
           <span>/</span>
-          <Link href="/news" class="hover:text-[#2596be] transition-colors">Blog</Link>
+          <Link href="/pos-systems-in-kenya-news" class="hover:text-[#2596be] transition-colors">Blog</Link>
           <span>/</span>
           <span class="text-gray-800 font-medium truncate">{{ blog.name }}</span>
         </nav>

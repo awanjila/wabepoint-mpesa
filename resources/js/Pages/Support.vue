@@ -31,7 +31,7 @@ defineProps({ seo: Object })
                         </svg>
                     </div>
                     <h3 class="font-bold text-gray-900 text-sm uppercase tracking-wide">Phone</h3>
-                    <a href="tel:+254710909198" class="mt-2 text-[#2596be] hover:underline block">+254 710 909 198</a>
+                    <a href="tel:+254781312070" class="mt-2 text-[#2596be] hover:underline block">+254 781 312 070</a>
                 </div>
 
                 <div class="bg-white rounded-sm p-6 border border-gray-200 text-center">

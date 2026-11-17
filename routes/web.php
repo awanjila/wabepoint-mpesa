@@ -85,6 +85,7 @@ Route::get('/partners', function () {
             'description' => 'Join the WabePoint partner network and grow your business together. Resell and recommend the leading POS and inventory system for Kenyan businesses.',
             'keywords' => 'wabepoint partners, pos reseller kenya, pos partner program, inventory software partners, pos distributor nairobi',
             'canonical' => 'https://wabepoint.com/partners',
+            'robots' => 'noindex, follow',
         ],
     ]);
 })->name('partners');
@@ -96,77 +97,32 @@ Route::get('/resources', function () {
             'description' => 'Explore WabePoint guides, tutorials, and documentation to get the most out of your POS system.',
             'keywords' => 'pos guides, inventory tutorials, pos documentation, business management tips, wabepoint resources, kenya business guides',
             'canonical' => 'https://wabepoint.com/resources',
+            'robots' => 'noindex, follow',
         ],
     ]);
 })->name('resources');
 
-Route::get('/paintshops', function () {
-    return Inertia::render('Landing/PaintShopPOS', [
-        'seo' => [
-            'title' => 'Paint Shop POS System Kenya - WabePoint | Track Sales, Stock & M-Pesa',
-            'description' => 'The #1 POS system built for paint shops in Kenya. Track sales, manage paint stock, handle M-Pesa & cash, and see daily profits. Works offline. Setup in 1 hour.',
-            'keywords' => 'paint shop pos, paint shop management system kenya, paint inventory software, pos for paint shops nairobi, mpesa pos paint shop, paint shop stock management, glasurit pos, wabepoint paint shop, pos system mombasa, paint sales tracking',
-            'canonical' => 'https://wabepoint.com/paintshops',
+foreach (config('industries') as $id => $industry) {
+    foreach ($industry['legacy'] as $legacyPath) {
+        Route::redirect($legacyPath, '/'.$industry['slug'], 301);
+    }
+
+    Route::get('/'.$industry['slug'], function () use ($industry) {
+        $seo = array_merge($industry['seo'], [
+            'canonical' => 'https://wabepoint.com/'.$industry['slug'],
             'type' => 'website',
-        ],
-    ]);
-})->name('paintshops');
+        ]);
 
-Route::get('/cosmetics', function () {
-    return Inertia::render('Landing/CosmeticsPOS', [
-        'seo' => [
-            'title' => 'Cosmetics POS System Kenya - WabePoint | Beauty Shop Management',
-            'description' => 'POS system built for cosmetics and beauty shops in Kenya. Track products by shade and expiry, manage stock, handle M-Pesa, and see daily profits.',
-            'keywords' => 'cosmetics pos kenya, beauty shop pos, cosmetics inventory software, salon point of sale, mpesa cosmetics payments, beauty shop stock management nairobi, wabepoint cosmetics',
-            'canonical' => 'https://wabepoint.com/cosmetics',
-        ],
-    ]);
-})->name('cosmetics');
+        if ($industry['component']) {
+            return Inertia::render($industry['component'], ['seo' => $seo, 'industry' => $industry]);
+        }
 
-Route::get('/hardware', function () {
-    return Inertia::render('Landing/HardwarePOS', [
-        'seo' => [
-            'title' => 'Hardware POS System Kenya - WabePoint | Construction Store Management',
-            'description' => 'POS system built for hardware stores in Kenya. Manage bulk stock, variant pricing, track sales, handle M-Pesa, and see daily profits.',
-            'keywords' => 'hardware store pos kenya, hardware shop point of sale, building materials inventory software, hardware stock management nairobi, construction store pos, mpesa hardware payments, wabepoint hardware',
-            'canonical' => 'https://wabepoint.com/hardware',
-        ],
-    ]);
-})->name('hardware');
-
-Route::get('/restaurants', function () {
-    return Inertia::render('Landing/RestaurantsPOS', [
-        'seo' => [
-            'title' => 'Restaurant POS System Kenya - WabePoint | Food Service Management',
-            'description' => 'POS system built for restaurants in Kenya. Menu management, table orders, kitchen receipts, M-Pesa payments, and daily sales reports.',
-            'keywords' => 'restaurant pos kenya, cafe point of sale, restaurant management system nairobi, kitchen pos, food service inventory, mpesa restaurant payments, wabepoint restaurants',
-            'canonical' => 'https://wabepoint.com/restaurants',
-        ],
-    ]);
-})->name('restaurants');
-
-Route::get('/offices', function () {
-    return Inertia::render('Landing/OfficesPOS', [
-        'seo' => [
-            'title' => 'Office Invoice System Kenya - WabePoint | Business Expense Management',
-            'description' => 'Invoicing and expense tracking system for offices in Kenya. Generate professional invoices, track POs, manage expenses, and reconcile payments.',
-            'keywords' => 'office invoice software kenya, invoicing system nairobi, expense tracking software, purchase order tracking, mpesa invoicing, business expense management kenya, wabepoint offices',
-            'canonical' => 'https://wabepoint.com/offices',
-        ],
-    ]);
-})->name('offices');
-
-Route::get('/gas', function () {
-    return Inertia::render('Landing/GasPOS', [
-        'seo' => [
-            'title' => 'Gas Shop POS System Kenya - WabePoint | LPG Cylinder & Refill Management',
-            'description' => 'POS system built for gas companies and LPG retailers in Kenya. Track cylinder stock and deposits, manage refills, take M-Pesa and cash, record credit sales, and see daily profits. Works offline. Setup in 1 hour.',
-            'keywords' => 'gas shop pos, gas company pos kenya, lpg management system, cooking gas pos, lpg cylinder tracking, gas refill software, gas outlet management, mpesa gas payments, gas shop stock management nairobi, wabepoint gas, pos for gas companies, lpg distributor software',
-            'canonical' => 'https://wabepoint.com/gas',
-            'type' => 'website',
-        ],
-    ]);
-})->name('gas');
+        return Inertia::render('Landing/IndustryPage', [
+            'seo' => $seo,
+            'industry' => $industry,
+        ]);
+    })->name('industry.'.$id);
+}
 
 
 Route::get('/point-of-sale-system-kenya', function () {
@@ -181,7 +137,7 @@ Route::get('/point-of-sale-system-kenya', function () {
 })->name('services');
 
 Route::get('/success-stories', function () {
-    $category = Category::where('slug', 'customer-stories')->orWhere('category_name', 'Customer Stories')->first();
+    $category = Category::where('category_name', 'Customer Stories')->first();
     $stories = collect();
     if ($category) {
         $stories = Blog::with('category')
@@ -225,7 +181,8 @@ Route::controller(BlogController::class)->group(function(){
 
     ///frontend///
     Route::get('/blogs/{slug}', [BlogController::class, 'show'])->name('blogs.show');
-    Route::get('news', [BlogController::class, 'index'])->name('blogs.index');
+    Route::redirect('/news', '/pos-systems-in-kenya-news', 301);
+    Route::get('pos-systems-in-kenya-news', [BlogController::class, 'index'])->name('blogs.index');
 
    });
 
@@ -233,4 +190,3 @@ Route::controller(BlogController::class)->group(function(){
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('blogs', \App\Http\Controllers\Admin\BlogController::class);
 });
-
