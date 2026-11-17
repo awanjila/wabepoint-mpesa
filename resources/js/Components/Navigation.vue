@@ -1,8 +1,21 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { Link, usePage } from '@inertiajs/vue3'
 
-const industries = usePage().props.industries
+const industries = computed(() => usePage().props.industries || [])
+
+const industryIconPaths = {
+    sparkles: ['M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z'],
+    wrench: [
+        'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z',
+        'M15 12a3 3 0 11-6 0 3 3 0 016 0z',
+    ],
+    paint: ['M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01'],
+    food: ['M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4'],
+    flame: ['M12 21c-4.97 0-9-4.03-9-9 0-4.5 3.5-7.5 6-11 .5 3.5 2 5 4 5 3 0 3-2 2-4.5 5 1.5 8 5.5 8 10 0 4.97-4.03 9-9 9z'],
+    shirt: ['M12 3l4 2 3 3-2 2-1.5-1.5V21h-7V8.5L8 10 6 8l3-3 3-2z'],
+    doc: ['M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'],
+}
 
 defineProps({
     canLogin: { type: Boolean, default: false },
@@ -45,7 +58,7 @@ const scrollToSection = (sectionId) => {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center text-sm">
                     <div class="flex items-center space-x-6">
-                        <a href="tel:+254710909198" class="flex items-center hover:text-white/90 transition-colors">
+                        <a href="tel:+254781312070" class="flex items-center hover:text-white/90 transition-colors">
                             <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                             </svg>
@@ -98,7 +111,7 @@ const scrollToSection = (sectionId) => {
                                     <div class="grid grid-cols-2 gap-1 p-2">
                                         <a v-for="item in industries" :key="item.id" :href="item.path" class="flex flex-col items-center gap-1 px-3 py-3 text-center rounded-sm hover:bg-gray-50 hover:text-[#2596be] transition-colors group">
                                             <svg class="w-7 h-7 text-gray-500 group-hover:text-[#2596be] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                                <path v-for="(d, index) in (industryIconPaths[item.icon] || industryIconPaths.doc)" :key="index" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" :d="d" />
                                             </svg>
                                             <span class="text-xs font-semibold text-gray-700 group-hover:text-[#2596be]">{{ item.label }}</span>
                                         </a>

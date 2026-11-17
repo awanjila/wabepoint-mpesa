@@ -1,0 +1,24 @@
+# SDD ledger — plan: docs/superpowers/plans/2026-11-18-pricing-page-and-nav-links.md
+
+Pre-flight: Task 3 consumes the source edits from Tasks 1 and 2, then regenerates bundles and HTML. No interface conflict: regeneration is deliberately last.
+Pre-flight: Task 1 removes `gridClass`; no other file references it.
+Ruling: execute in the current `master` workspace — the entire SEO change set is uncommitted here, so a worktree would omit the baseline the plan edits; cost if wrong is a mixed working tree, which the final diff review will catch.
+Ruling: use source-assertion checks (Node scripts reading the Vue SFCs) as the failing tests because this project has no JS test framework and layout is expressed in template classes; browser DOM geometry is used as the behavioural verification after each edit; cost if wrong is a source change passing the check while rendering differently, which the browser check catches.
+Ruling: browser geometry verification for both tasks is deferred until after Task 3's rebuild, because `php artisan serve` serves the previously built bundle; source checks gate the edits, browser checks gate the final generated output.
+Task 1: pricing-check.mjs RED (5 FAIL) on original source; after edits GREEN (5 PASS). Second `scale-[1.02]` occurrence in the setup-tier card also removed.
+Task 2: nav-check.mjs RED (3 FAIL, 1 PASS) on original source; after edits GREEN (4 PASS).
+Task 3 verification: pricing DOM at 1000px shows one uniform 420px card width, no overlap, no `scale-[1.02]`, no horizontal overflow; iframe at 375px shows one 328px card per row, no overflow. Generated HTML has all three nav hrefs and no dev-server URLs.
+Verification discovery: clicking nav links did not navigate under `php artisan serve` because the pre-rendered static files answer Inertia's `X-Inertia` XHR with plain HTML. With X-Inertia routed to Laravel, all four nav links navigate correctly and hover panels open/close.
+Ruling: add an Apache rewrite rule in `public/.htaccess` so X-Inertia requests reach `index.php` even when a pre-rendered `index.html` exists. Without it the live cPanel host would keep the same broken click behaviour; cost if wrong is non-Inertia XHR getting Laravel JSON, which cannot happen because Inertia always sends the header.
+Final review (fresh-context reviewer): no Critical issues. Important findings addressed — per-industry dropdown icons restored via `industryIconPaths`, `industries` made a `computed`, support `tel:` corrected to `+254781312070`, Authorization rewrite moved above the X-Inertia rule, and the three source checks were upgraded plus a new `output-check.mjs` covering generated HTML, `.htaccess`, manifest and dev URLs. `DirectoryIndex index.html index.php` documented in the file as required for pre-rendered pages.
+Ruling: the live host is nginx, not Apache (observed `Server: nginx/1.24.0`), and already returns Laravel's 409 + `X-Inertia-Location` for X-Inertia requests. The `.htaccess` rule is still correct for the planned Apache/cPanel host but is inert on the current nginx deployment; the outstanding live problem is that the old bundles are still deployed.
+
+## User-reported "website on top of website" popup — root cause and fix
+
+Reproduction: on `http://127.0.0.1:8000/`, clicking the Pricing link left the URL at `/` and appended a 282-byte overlay to `<body>`: `<div style="position:fixed;width:100vw;height:100vh;...;z-index:200000"><iframe ...></iframe></div>`. Every further click added another overlay, matching the user's "another one pops up" description.
+
+Root cause: this is Inertia v1's built-in "invalid response" modal (`resources` show it in the bundled `app-*.js` as the `f_` helper). When a static host answers the `X-Inertia` GET for `/pricing` with the pre-rendered HTML document instead of a valid Inertia JSON response, Inertia writes that HTML into a full-screen iframe. The Apache `.htaccess` rule fixes the server side for cPanel, but any static file server (including `php artisan serve` and hosts where the rule cannot be deployed) still triggers it.
+
+Fix: `resources/js/app.js` now listens for the cancelable `document` event `inertia:invalid`, calls `preventDefault()` for GET visits (stopping the iframe modal), and forces a real page load via `window.location.assign()` to the response URL / `X-Inertia-Location`. Non-GET visits keep Inertia's default handling so form submissions are not replayed.
+
+TDD: `checks/invalid-response-check.mjs` written first — RED (3 FAIL) on the original `app.js`, GREEN (3 PASS) after the listener was added. `checks/output-check.mjs` also asserts the built app bundle contains the `inertia:invalid` guard. Behavioural verification: from a Laravel-served page with the new bundle, clicking Pricing navigated to `/pricing` with 1 `#app`, 1 `nav`, 0 modal iframes and 0 `z-index:200000` overlays.

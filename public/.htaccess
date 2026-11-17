@@ -1,3 +1,4 @@
+# Pre-rendered SEO pages live at */index.html; serve them before falling back to Laravel
 DirectoryIndex index.html index.php
 
 <IfModule mod_rewrite.c>
@@ -7,13 +8,13 @@ DirectoryIndex index.html index.php
 
     RewriteEngine On
 
-    # Inertia client-side visits must reach Laravel even when a pre-rendered HTML file exists
-    RewriteCond %{HTTP:X-Inertia} .
-    RewriteRule ^ index.php [L]
-
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Inertia client-side visits must reach Laravel even when a pre-rendered HTML file exists
+    RewriteCond %{HTTP:X-Inertia} .
+    RewriteRule ^ index.php [L]
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
