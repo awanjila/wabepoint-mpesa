@@ -1,9 +1,15 @@
+DirectoryIndex index.html index.php
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
 
     RewriteEngine On
+
+    # Inertia client-side visits must reach Laravel even when a pre-rendered HTML file exists
+    RewriteCond %{HTTP:X-Inertia} .
+    RewriteRule ^ index.php [L]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
