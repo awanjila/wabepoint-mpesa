@@ -190,11 +190,6 @@ function toggleFaq(index) {
   openFaq.value = openFaq.value === index ? null : index
 }
 
-function gridClass(count) {
-  if (count === 1) return 'grid md:grid-cols-1 gap-6 max-w-md mx-auto'
-  if (count === 2) return 'grid md:grid-cols-2 gap-6 max-w-4xl mx-auto'
-  return 'grid md:grid-cols-3 gap-6'
-}
 </script>
 
 <template>
@@ -219,7 +214,7 @@ function gridClass(count) {
     </section>
 
     <!-- Pricing Cards -->
-    <section class="max-w-6xl mx-auto px-4 -mt-12 relative z-20 pb-16">
+    <section class="max-w-6xl mx-auto px-4 pt-10 pb-16">
       <!-- Business Type Tabs -->
       <div class="flex flex-wrap items-center justify-center gap-2 mb-10">
         <button v-for="group in [{ id: 'all', name: 'All Plans' }, ...planGroups]"
@@ -238,10 +233,10 @@ function gridClass(count) {
           <h2 class="text-xl md:text-2xl font-extrabold text-gray-900 uppercase tracking-wide">{{ group.name }} Plans</h2>
           <p class="mt-1 text-sm text-gray-500">{{ group.tagline }}</p>
         </div>
-        <div :class="gridClass(group.plans.length)">
+        <div class="flex flex-wrap justify-center gap-6">
           <div v-for="plan in group.plans" :key="plan.name"
-               class="relative bg-white rounded-sm border-2 transition-all duration-150 flex flex-col"
-               :class="plan.highlighted ? 'border-[#2596be] shadow-md scale-[1.02]' : 'border-[#e5e7eb] hover:border-[#2596be]/50'">
+               class="relative bg-white rounded-sm border-2 transition-all duration-150 flex flex-col w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+               :class="plan.highlighted ? 'border-[#2596be] shadow-md' : 'border-[#e5e7eb] hover:border-[#2596be]/50'">
             <div v-if="plan.badge" class="absolute top-0 right-0 bg-[#2596be] text-white px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-bl-sm">{{ plan.badge }}</div>
             <div class="p-6 flex flex-col flex-1">
               <h3 class="text-lg font-extrabold uppercase tracking-wide"
@@ -306,7 +301,7 @@ function gridClass(count) {
               <li class="flex items-start gap-2"><svg class="w-3.5 h-3.5 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Staff training session</li>
             </ul>
           </div>
-          <div class="bg-white rounded-sm border-2 border-[#2596be] shadow-md p-6 text-center relative scale-[1.02]">
+          <div class="bg-white rounded-sm border-2 border-[#2596be] shadow-md p-6 text-center relative">
             <span class="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2 bg-white text-[10px] font-bold uppercase tracking-wider text-[#2596be] border border-[#2596be]/30 rounded-sm">Most Common</span>
             <h4 class="text-sm font-bold text-[#2596be] uppercase tracking-wider mb-1">Medium Business</h4>
             <p class="text-xs text-gray-400 mb-3">Hardware, Paint Shop, Restaurant</p>
