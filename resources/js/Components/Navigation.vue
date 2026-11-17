@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Link } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
+
+const industries = usePage().props.industries
 
 defineProps({
     canLogin: { type: Boolean, default: false },
@@ -78,12 +80,12 @@ const scrollToSection = (sectionId) => {
                         <div ref="posDropdownRef" class="relative"
                              @mouseenter="posDropdownOpen = true"
                              @mouseleave="posDropdownOpen = false">
-                            <button class="inline-flex items-center text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#2596be] transition-colors">
+                            <Link href="/point-of-sale-system-kenya" class="inline-flex items-center text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#2596be] transition-colors">
                                 Point Of Sale
                                 <svg :class="{'rotate-180': posDropdownOpen}" class="ml-1 h-3.5 w-3.5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                 </svg>
-                            </button>
+                            </Link>
                             <transition
                                 enter-active-class="transition duration-150 ease-out"
                                 enter-from-class="opacity-0 scale-95"
@@ -94,41 +96,11 @@ const scrollToSection = (sectionId) => {
                             >
                                 <div v-show="posDropdownOpen" class="absolute left-0 mt-2 w-72 rounded-sm shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                                     <div class="grid grid-cols-2 gap-1 p-2">
-                                        <a href="/cosmetics" class="flex flex-col items-center gap-1 px-3 py-3 text-center rounded-sm hover:bg-gray-50 hover:text-[#2596be] transition-colors group">
-                                            <svg class="w-7 h-7 text-gray-500 group-hover:text-[#2596be] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
-                                            </svg>
-                                            <span class="text-xs font-semibold text-gray-700 group-hover:text-[#2596be]">Cosmetics</span>
-                                        </a>
-                                        <a href="/hardware" class="flex flex-col items-center gap-1 px-3 py-3 text-center rounded-sm hover:bg-gray-50 hover:text-[#2596be] transition-colors group">
-                                            <svg class="w-7 h-7 text-gray-500 group-hover:text-[#2596be] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                            </svg>
-                                            <span class="text-xs font-semibold text-gray-700 group-hover:text-[#2596be]">Hardware</span>
-                                        </a>
-                                        <a href="/paintshops" class="flex flex-col items-center gap-1 px-3 py-3 text-center rounded-sm hover:bg-gray-50 hover:text-[#2596be] transition-colors group">
-                                            <svg class="w-7 h-7 text-gray-500 group-hover:text-[#2596be] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
-                                            </svg>
-                                            <span class="text-xs font-semibold text-gray-700 group-hover:text-[#2596be]">Paint Shops</span>
-                                        </a>
-                                        <a href="/restaurants" class="flex flex-col items-center gap-1 px-3 py-3 text-center rounded-sm hover:bg-gray-50 hover:text-[#2596be] transition-colors group">
-                                            <svg class="w-7 h-7 text-gray-500 group-hover:text-[#2596be] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
-                                            </svg>
-                                            <span class="text-xs font-semibold text-gray-700 group-hover:text-[#2596be]">Restaurants</span>
-                                        </a>
-                                        <a href="/gas" class="flex flex-col items-center gap-1 px-3 py-3 text-center rounded-sm hover:bg-gray-50 hover:text-[#2596be] transition-colors group">
-                                            <svg class="w-7 h-7 text-gray-500 group-hover:text-[#2596be] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21c-4.97 0-9-4.03-9-9 0-4.5 3.5-7.5 6-11 .5 3.5 2 5 4 5 3 0 3-2 2-4.5 5 1.5 8 5.5 8 10 0 4.97-4.03 9-9 9z"/>
-                                            </svg>
-                                            <span class="text-xs font-semibold text-gray-700 group-hover:text-[#2596be]">Gas</span>
-                                        </a>
-                                        <a href="/offices" class="flex flex-col items-center gap-1 px-3 py-3 text-center rounded-sm hover:bg-gray-50 hover:text-[#2596be] transition-colors group">
+                                        <a v-for="item in industries" :key="item.id" :href="item.path" class="flex flex-col items-center gap-1 px-3 py-3 text-center rounded-sm hover:bg-gray-50 hover:text-[#2596be] transition-colors group">
                                             <svg class="w-7 h-7 text-gray-500 group-hover:text-[#2596be] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                             </svg>
-                                            <span class="text-xs font-semibold text-gray-700 group-hover:text-[#2596be]">Offices</span>
+                                            <span class="text-xs font-semibold text-gray-700 group-hover:text-[#2596be]">{{ item.label }}</span>
                                         </a>
                                     </div>
                                 </div>
@@ -139,12 +111,12 @@ const scrollToSection = (sectionId) => {
                         <div ref="servicesDropdownRef" class="relative"
                              @mouseenter="servicesDropdownOpen = true"
                              @mouseleave="servicesDropdownOpen = false">
-                            <button class="inline-flex items-center text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#2596be] transition-colors">
+                            <Link href="/point-of-sale-system-kenya" class="inline-flex items-center text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#2596be] transition-colors">
                                 Our Services
                                 <svg :class="{'rotate-180': servicesDropdownOpen}" class="ml-1 h-3.5 w-3.5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                 </svg>
-                            </button>
+                            </Link>
                             <transition
                                 enter-active-class="transition duration-150 ease-out"
                                 enter-from-class="opacity-0 scale-95"
@@ -218,12 +190,12 @@ const scrollToSection = (sectionId) => {
                         <div ref="resourcesDropdownRef" class="relative"
                              @mouseenter="resourcesDropdownOpen = true"
                              @mouseleave="resourcesDropdownOpen = false">
-                            <button class="inline-flex items-center text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#2596be] transition-colors">
+                            <Link href="/pos-systems-in-kenya-news" class="inline-flex items-center text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#2596be] transition-colors">
                                 Resources
                                 <svg :class="{'rotate-180': resourcesDropdownOpen}" class="ml-1 h-3.5 w-3.5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                 </svg>
-                            </button>
+                            </Link>
                             <transition
                                 enter-active-class="transition duration-150 ease-out"
                                 enter-from-class="opacity-0 scale-95"
@@ -244,7 +216,7 @@ const scrollToSection = (sectionId) => {
                                             </div>
                                         </a>
                                         <div class="border-t border-gray-100"></div>
-                                        <a href="/news" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#2596be] transition-colors">
+                                        <a href="/pos-systems-in-kenya-news" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#2596be] transition-colors">
                                             <svg class="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                                             </svg>
@@ -302,12 +274,7 @@ const scrollToSection = (sectionId) => {
                 <div v-show="isOpen" class="md:hidden bg-white border-t border-gray-200">
                     <div class="pt-2 pb-3 space-y-1">
                         <div class="pl-4 pr-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-400">Point Of Sale</div>
-                        <a href="/cosmetics" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Cosmetics</a>
-                        <a href="/hardware" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Hardware</a>
-                        <a href="/paintshops" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Paint Shops</a>
-                        <a href="/restaurants" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Restaurants</a>
-                        <a href="/gas" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Gas</a>
-                        <a href="/offices" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Offices</a>
+                        <a v-for="item in industries" :key="item.id" :href="item.path" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">{{ item.label }}</a>
                         <div class="border-t border-gray-100 mt-2 pt-2"></div>
                         <div class="pl-4 pr-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-400">Our Services</div>
                         <a href="/point-of-sale-system-kenya#kra-etims" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">KRA eTIMS Integration</a>
@@ -320,7 +287,7 @@ const scrollToSection = (sectionId) => {
                         <div class="border-t border-gray-100 mt-2 pt-2"></div>
                         <div class="pl-4 pr-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-400">Resources</div>
                         <a href="/success-stories" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Success Stories</a>
-                        <a href="/news" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Blog / Guide</a>
+                        <a href="/pos-systems-in-kenya-news" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Blog / Guide</a>
                         <a href="/support" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Support Contacts</a>
                     </div>
                     <div class="border-t border-gray-200 pt-2 pb-3 space-y-1">
