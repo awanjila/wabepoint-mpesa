@@ -37,4 +37,22 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
     }
+
+    protected function routesAreCached(): bool
+    {
+        if (! parent::routesAreCached()) {
+            return false;
+        }
+
+        $cachedPath = $this->app->getCachedRoutesPath();
+        $content = @file_get_contents($cachedPath);
+
+        if ($content === false || ! str_contains($content, 'pos-systems-in-kenya-news')) {
+            @unlink($cachedPath);
+
+            return false;
+        }
+
+        return true;
+    }
 }

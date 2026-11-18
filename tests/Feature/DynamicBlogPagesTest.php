@@ -186,6 +186,22 @@ class DynamicBlogPagesTest extends TestCase
             ->assertSee('<footer', false);
     }
 
+    public function test_route_service_provider_ignores_stale_route_cache_missing_blog_index_route(): void
+    {
+        $cachedRoutesPath = $this->app->getCachedRoutesPath();
+        file_put_contents($cachedRoutesPath, '<?php // stale route cache without blog index route');
+
+        try {
+            $provider = new \App\Providers\RouteServiceProvider($this->app);
+            $method = new \ReflectionMethod($provider, 'routesAreCached');
+            $method->setAccessible(true);
+
+            $this->assertFalse($method->invoke($provider));
+        } finally {
+            @unlink($cachedRoutesPath);
+        }
+    }
+
     public function test_inertia_visits_still_return_vue_pages(): void
     {
         $user = User::factory()->create();

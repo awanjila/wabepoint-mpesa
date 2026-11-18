@@ -11,8 +11,26 @@
 |
 */
 
+$basePath = $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__);
+
+$routesCache = $basePath.'/bootstrap/cache/routes-v7.php';
+if (is_file($routesCache)) {
+    $routesContent = @file_get_contents($routesCache);
+    if ($routesContent === false || ! str_contains($routesContent, 'pos-systems-in-kenya-news')) {
+        @unlink($routesCache);
+    }
+}
+
+$configCache = $basePath.'/bootstrap/cache/config.php';
+if (is_file($configCache)) {
+    $configContent = @file_get_contents($configCache);
+    if ($configContent === false || ! str_contains($configContent, 'pos-system-boutique-fashion-kenya')) {
+        @unlink($configCache);
+    }
+}
+
 $app = new Illuminate\Foundation\Application(
-    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
+    $basePath
 );
 
 /*
