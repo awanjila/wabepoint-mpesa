@@ -1,4 +1,10 @@
 @php
+    $industries = config('industries');
+    if (! is_array($industries) || empty($industries)) {
+        $industriesPath = base_path('config/industries.php');
+        $industries = is_file($industriesPath) ? require $industriesPath : [];
+    }
+
     $industryIconPaths = [
         'sparkles' => ['M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z'],
         'wrench' => [
@@ -59,7 +65,7 @@
                         </a>
                         <div class="absolute left-0 mt-2 w-72 rounded-sm shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50 hidden group-hover:block">
                             <div class="grid grid-cols-2 gap-1 p-2">
-                                @foreach (config('industries') as $industry)
+                                @foreach ($industries as $industry)
                                 <a href="/{{ $industry['slug'] }}" class="flex flex-col items-center gap-1 px-3 py-3 text-center rounded-sm hover:bg-gray-50 hover:text-[#2596be] transition-colors group">
                                     <svg class="w-7 h-7 text-gray-500 group-hover:text-[#2596be] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         @foreach ($industryIconPaths[$industry['icon']] ?? $industryIconPaths['doc'] as $d)
@@ -159,7 +165,7 @@
                         <div class="absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
                             <div class="pt-2 pb-3 space-y-1">
                                 <div class="pl-4 pr-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-400">Point Of Sale</div>
-                                @foreach (config('industries') as $industry)
+                                @foreach ($industries as $industry)
                                 <a href="/{{ $industry['slug'] }}" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">{{ $industry['label'] }}</a>
                                 @endforeach
                                 <div class="border-t border-gray-100 mt-2 pt-2"></div>

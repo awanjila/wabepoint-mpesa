@@ -21,19 +21,20 @@ class PrerenderPages extends Command
         '/support',
         '/point-of-sale-system-kenya',
         '/success-stories',
-        '/pos-systems-in-kenya-news',
     ];
 
     public function handle(Kernel $kernel): int
     {
         $paths = $this->pages;
 
-        foreach (config('industries') as $industry) {
-            $paths[] = '/'.$industry['slug'];
+        $industries = config('industries');
+        if (! is_array($industries) || empty($industries)) {
+            $industriesFile = base_path('config/industries.php');
+            $industries = is_file($industriesFile) ? require $industriesFile : [];
         }
 
-        foreach (Blog::pluck('slug') as $slug) {
-            $paths[] = '/blogs/'.$slug;
+        foreach ($industries as $industry) {
+            $paths[] = '/'.$industry['slug'];
         }
 
         $failed = 0;

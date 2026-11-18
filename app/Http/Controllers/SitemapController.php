@@ -12,7 +12,13 @@ class SitemapController extends Controller
             ['path' => '/', 'priority' => '1.0', 'changefreq' => 'weekly'],
         ];
 
-        foreach (config('industries') as $industry) {
+        $industries = config('industries');
+        if (! is_array($industries) || empty($industries)) {
+            $industriesFile = base_path('config/industries.php');
+            $industries = is_file($industriesFile) ? require $industriesFile : [];
+        }
+
+        foreach ($industries as $industry) {
             $static[] = ['path' => '/'.$industry['slug'], 'priority' => $industry['priority'], 'changefreq' => 'monthly'];
         }
 

@@ -34,7 +34,11 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'industries' => collect(config('industries'))
+            'industries' => collect(
+                is_array(config('industries')) && ! empty(config('industries'))
+                    ? config('industries')
+                    : (is_file(base_path('config/industries.php')) ? require base_path('config/industries.php') : [])
+            )
                 ->map(fn ($industry, $id) => [
                     'id' => $id,
                     'label' => $industry['label'],

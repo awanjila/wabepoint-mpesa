@@ -102,7 +102,13 @@ Route::get('/resources', function () {
     ]);
 })->name('resources');
 
-foreach (config('industries') as $id => $industry) {
+$industriesConfig = config('industries');
+if (! is_array($industriesConfig) || empty($industriesConfig)) {
+    $industriesFile = base_path('config/industries.php');
+    $industriesConfig = is_file($industriesFile) ? require $industriesFile : [];
+}
+
+foreach ($industriesConfig as $id => $industry) {
     foreach ($industry['legacy'] as $legacyPath) {
         Route::redirect($legacyPath, '/'.$industry['slug'], 301);
     }

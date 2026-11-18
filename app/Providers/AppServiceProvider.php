@@ -11,7 +11,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->ensureIndustriesConfigLoaded();
     }
 
     /**
@@ -19,6 +19,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->ensureIndustriesConfigLoaded();
+    }
+
+    private function ensureIndustriesConfigLoaded(): void
+    {
+        if (! is_array(config('industries')) || empty(config('industries'))) {
+            $path = base_path('config/industries.php');
+            if (is_file($path)) {
+                config(['industries' => require $path]);
+            }
+        }
     }
 }

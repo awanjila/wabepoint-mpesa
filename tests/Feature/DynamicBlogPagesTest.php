@@ -117,6 +117,75 @@ class DynamicBlogPagesTest extends TestCase
             ->assertSee('class="absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg"', false);
     }
 
+    public function test_blog_pages_render_header_and_footer_when_industries_config_is_null(): void
+    {
+        $user = User::factory()->create();
+        $blog = Blog::create([
+            'name' => 'Cached Config Post',
+            'slug' => 'cached-config-post',
+            'user_id' => $user->id,
+            'description' => '<p>Cached config body.</p>',
+        ]);
+
+        config(['industries' => null]);
+
+        foreach (['/pos-systems-in-kenya-news', '/blogs/'.$blog->slug] as $path) {
+            $this->get($path)
+                ->assertOk()
+                ->assertSee('ALL-IN-ONE POS SYSTEM')
+                ->assertSee('/pos-system-cosmetics-kenya', false)
+                ->assertSee('/pos-system-lpg-gas-kenya', false)
+                ->assertSee('/pos-system-boutique-fashion-kenya', false)
+                ->assertSee('<footer', false)
+                ->assertSee('All rights reserved.');
+        }
+    }
+
+    public function test_no_stale_blog_snapshots_in_public_and_all_static_html_assets_exist(): void
+    {
+        $this->assertDirectoryDoesNotExist(public_path('pos-systems-in-kenya-news'));
+        $this->assertDirectoryDoesNotExist(public_path('blogs'));
+
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator(public_path(), \FilesystemIterator::SKIP_DOTS)
+        );
+
+        foreach ($iterator as $file) {
+            if ($file->getFilename() !== 'index.html') {
+                continue;
+            }
+
+            $html = file_get_contents($file->getPathname());
+            preg_match_all('#(?:href|src)="(/build/assets/[^"]+)"#', $html, $matches);
+            $this->assertNotEmpty($matches[1], "Expected build asset references in {$file->getPathname()}");
+
+            foreach ($matches[1] as $assetUrl) {
+                $this->assertFileExists(
+                    public_path(ltrim($assetUrl, '/')),
+                    "Missing asset {$assetUrl} referenced by {$file->getPathname()}"
+                );
+            }
+        }
+    }
+
+    public function test_blog_detail_includes_unscoped_blog_content_and_quill_list_css(): void
+    {
+        $user = User::factory()->create();
+        $blog = Blog::create([
+            'name' => 'Styled Blog Post',
+            'slug' => 'styled-blog-post',
+            'user_id' => $user->id,
+            'description' => '<h2>Heading</h2><ol><li data-list="bullet"><span class="ql-ui" contenteditable="false"></span>Bullet item</li></ol>',
+        ]);
+
+        $this->get('/blogs/'.$blog->slug)
+            ->assertOk()
+            ->assertSee('.blog-content li[data-list="bullet"]', false)
+            ->assertSee('.blog-content h2', false)
+            ->assertSee('<nav', false)
+            ->assertSee('<footer', false);
+    }
+
     public function test_inertia_visits_still_return_vue_pages(): void
     {
         $user = User::factory()->create();

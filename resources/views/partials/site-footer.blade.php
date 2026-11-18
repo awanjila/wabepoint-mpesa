@@ -1,3 +1,10 @@
+@php
+    $industries = config('industries');
+    if (! is_array($industries) || empty($industries)) {
+        $industriesPath = base_path('config/industries.php');
+        $industries = is_file($industriesPath) ? require $industriesPath : [];
+    }
+@endphp
 <footer class="bg-gray-900">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-8">
@@ -54,7 +61,7 @@
             <div>
                 <h3 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Point of Sale</h3>
                 <ul class="space-y-2.5">
-                    @foreach (config('industries') as $industry)
+                    @foreach ($industries as $industry)
                     <li><a href="/{{ $industry['slug'] }}" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">{{ $industry['label'] }}</a></li>
                     @endforeach
                 </ul>
