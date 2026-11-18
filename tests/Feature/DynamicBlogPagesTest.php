@@ -109,6 +109,14 @@ class DynamicBlogPagesTest extends TestCase
             ->assertDontSee('src="/build/assets/', false);
     }
 
+    public function test_mobile_menu_panel_is_positioned_against_the_nav_not_the_hamburger(): void
+    {
+        $this->get('/pos-systems-in-kenya-news')
+            ->assertOk()
+            ->assertDontSee('<details class="md:hidden relative">', false)
+            ->assertSee('class="absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg"', false);
+    }
+
     public function test_inertia_visits_still_return_vue_pages(): void
     {
         $user = User::factory()->create();

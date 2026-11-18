@@ -10,9 +10,16 @@ from this repository.
 # Place before the static-file fallback for /, and after the /build and /storage rules.
 # Blog URLs must reach Laravel so they render from the live database.
 location ~ ^/(blogs(?:/|$)|pos-systems-in-kenya-news(?:/|$)) {
-    try_files $uri $uri/ /index.php?$query_string;
+    rewrite ^ /index.php last;
 }
 ```
+
+`rewrite ... last` sends every matching request straight to Laravel without first
+checking for a matching static file or directory. This is deliberate: `try_files
+$uri $uri/ ...` would let an existing `public/blogs/{slug}/index.html` prerendered
+snapshot win, which is exactly the stale content this change removes. The original
+query string (including `?page=`) is preserved by nginx when the replacement URI
+has no query string of its own.
 
 Notes for the host owner:
 
