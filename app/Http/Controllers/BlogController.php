@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Models\Category;
+use App\Support\SeoDescription;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Storage;
@@ -72,7 +73,7 @@ class BlogController extends Controller
 
     $seo = [
         'title' => $blog->meta_title ?: $headline . ' - WabePoint Blog',
-        'description' => $blog->meta_description ?: Str::limit(strip_tags($blog->content), 160),
+        'description' => SeoDescription::plain($blog->meta_description ?: $blog->content),
         'keywords' => $blog->category?->name . ', ' . Str::slug($headline),
         'canonical' => url()->current(),
         'type' => 'article',
