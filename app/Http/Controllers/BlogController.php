@@ -47,7 +47,7 @@ class BlogController extends Controller
         return view('frontend.blog.blogs')->with('blogs', $blogs);
     }//endmethod
 
-    public function index()
+    public function index(Request $request)
     {
         $seo = [
             'title' => 'Blog - WabePoint POS & Inventory Management Tips',
@@ -56,13 +56,20 @@ class BlogController extends Controller
             'canonical' => 'https://wabepoint.com/pos-systems-in-kenya-news',
         ];
 
-        return Inertia::render('Blogs/Index', [ 
-            'blogs' => Blog::with('category')->latest()->get(),
+        if ($request->header('X-Inertia')) {
+            return Inertia::render('Blogs/Index', [
+                'blogs' => Blog::with('category')->latest()->get(),
+                'seo' => $seo,
+            ]);
+        }
+
+        return view('blogs.index', [
+            'blogs' => Blog::with('category')->latest()->paginate(6),
             'seo' => $seo,
         ]);
     }//endmethod
 
-    public function show($slug)
+    public function show(Request $request, $slug)
 {
     $blog = Blog::with('category', 'user')->where('slug', $slug)->firstOrFail();
 
@@ -79,15 +86,26 @@ class BlogController extends Controller
         'type' => 'article',
     ];
 
-    return Inertia::render('Blogs/Show', [
+    if ($request->header('X-Inertia')) {
+        return Inertia::render('Blogs/Show', [
+            'blog'       => $blog,
+            'previous'   => $previous,
+            'next'       => $next,
+            'canLogin'   => true,
+            'canRegister'=> true,
+            'url'        => url()->current(),
+            'blogPosts'  => Blog::latest()->take(6)->get(),
+            'seo'        => $seo,
+        ]);
+    }
+
+    return view('blogs.show', [
         'blog'       => $blog,
         'previous'   => $previous,
         'next'       => $next,
-        'canLogin'   => true,
-        'canRegister'=> true,
-        'url'        => url()->current(),
-        'blogPosts'  => Blog::latest()->take(6)->get(),
+        'blogPosts'  => Blog::with('category')->latest()->take(6)->get(),
         'seo'        => $seo,
+        'url'        => url()->current(),
     ]);
 }//endmethod
 
