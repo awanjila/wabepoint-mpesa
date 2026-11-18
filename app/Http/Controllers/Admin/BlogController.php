@@ -54,7 +54,11 @@ class BlogController extends Controller
             $path = Storage::disk('public')->putFileAs(
                 'blogs',
                 $request->file('image_file'),
-                $validated['slug'] . '.' . $request->file('image_file')->getClientOriginalExtension()
+                $this->imageFilename(
+                    $validated['slug'],
+                    $validated['name'],
+                    $request->file('image_file')->getClientOriginalExtension()
+                )
             );
             $validated['image'] = 'storage/' . $path;
         }
@@ -108,7 +112,11 @@ class BlogController extends Controller
             $path = Storage::disk('public')->putFileAs(
                 'blogs',
                 $request->file('image_file'),
-                $validated['slug'] . '.' . $request->file('image_file')->getClientOriginalExtension()
+                $this->imageFilename(
+                    $validated['slug'],
+                    $validated['name'],
+                    $request->file('image_file')->getClientOriginalExtension()
+                )
             );
             $validated['image'] = 'storage/' . $path;
         }
@@ -131,5 +139,12 @@ class BlogController extends Controller
 
         return redirect()->route('admin.blogs.index')
             ->with('success', 'Blog post deleted successfully.');
+    }
+
+    private function imageFilename(string $slug, string $name, string $extension): string
+    {
+        $safeSlug = trim(preg_replace('/[^A-Za-z0-9_-]/', '-', $slug), '-');
+
+        return ($safeSlug ?: Str::slug($name)) . '.' . $extension;
     }
 }

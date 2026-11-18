@@ -59,4 +59,50 @@ class BlogImageFilenameTest extends TestCase
         ]);
         $this->assertSame(['blogs/new-title.jpeg'], Storage::disk('public')->files('blogs'));
     }
+
+    public function test_store_keeps_image_inside_blogs_directory_when_slug_has_path_separators(): void
+    {
+        Storage::fake('public');
+        $this->actingAs(User::factory()->create());
+
+        $this->post(route('admin.blogs.store'), [
+            'name' => 'Path Safe',
+            'slug' => '../escape',
+            'status' => false,
+            'image_file' => UploadedFile::fake()->image('cover.png', 10, 10),
+        ])->assertRedirect(route('admin.blogs.index'));
+
+        Storage::disk('public')->assertExists('blogs/escape.png');
+        Storage::disk('public')->assertMissing('escape.png');
+        $this->assertDatabaseHas('blogs', [
+            'slug' => '../escape',
+            'image' => 'storage/blogs/escape.png',
+        ]);
+    }
+
+    public function test_update_keeps_image_inside_blogs_directory_when_slug_has_path_separators(): void
+    {
+        Storage::fake('public');
+        $this->actingAs(User::factory()->create());
+        $blog = Blog::create([
+            'name' => 'Old Title',
+            'slug' => 'old-title',
+            'user_id' => User::first()->id,
+            'status' => false,
+        ]);
+
+        $this->put(route('admin.blogs.update', $blog), [
+            'name' => 'Path Safe',
+            'slug' => '../escape-edit',
+            'status' => false,
+            'image_file' => UploadedFile::fake()->image('cover.png', 10, 10),
+        ])->assertRedirect(route('admin.blogs.index'));
+
+        Storage::disk('public')->assertExists('blogs/escape-edit.png');
+        Storage::disk('public')->assertMissing('escape-edit.png');
+        $this->assertDatabaseHas('blogs', [
+            'id' => $blog->id,
+            'image' => 'storage/blogs/escape-edit.png',
+        ]);
+    }
 }
