@@ -7,6 +7,7 @@ use App\Jobs\SendBlogToSubscribers;
 use App\Models\Blog;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -47,15 +48,20 @@ class BlogController extends Controller
             'send_to_subscribers' => 'nullable|boolean',
         ]);
 
+        $validated['slug'] = ($validated['slug'] ?? null) ?: Str::slug($validated['name']);
+
         if ($request->hasFile('image_file')) {
-            $path = $request->file('image_file')->store('blogs', 'public');
+            $path = Storage::disk('public')->putFileAs(
+                'blogs',
+                $request->file('image_file'),
+                $validated['slug'] . '.' . $request->file('image_file')->getClientOriginalExtension()
+            );
             $validated['image'] = 'storage/' . $path;
         }
 
         unset($validated['image_file']);
 
         $validated['user_id'] = auth()->id();
-        $validated['slug'] = $validated['slug'] ?: Str::slug($validated['name']);
 
         $blog = Blog::create($validated);
 
@@ -94,16 +100,20 @@ class BlogController extends Controller
             'send_to_subscribers' => 'nullable|boolean',
         ]);
 
+        if (empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['name']);
+        }
+
         if ($request->hasFile('image_file')) {
-            $path = $request->file('image_file')->store('blogs', 'public');
+            $path = Storage::disk('public')->putFileAs(
+                'blogs',
+                $request->file('image_file'),
+                $validated['slug'] . '.' . $request->file('image_file')->getClientOriginalExtension()
+            );
             $validated['image'] = 'storage/' . $path;
         }
 
         unset($validated['image_file']);
-
-        if (!$validated['slug']) {
-            $validated['slug'] = Str::slug($validated['name']);
-        }
 
         $blog->update($validated);
 
