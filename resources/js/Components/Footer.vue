@@ -67,7 +67,7 @@
                         <li><a href="/pricing" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Pricing</a></li>
                         <li><a href="/about" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">About Us</a></li>
                         <li><a href="/success-stories" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Success Stories</a></li>
-                        <li><a href="/pos-systems-in-kenya-news" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Blog</a></li>
+                        <li><a href="/news" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Blog</a></li>
                         <li><a href="/support" class="text-gray-400 hover:text-[#33a3dc] text-sm transition-colors">Support</a></li>
                     </ul>
                 </div>

@@ -203,7 +203,7 @@ const scrollToSection = (sectionId) => {
                         <div ref="resourcesDropdownRef" class="relative"
                              @mouseenter="resourcesDropdownOpen = true"
                              @mouseleave="resourcesDropdownOpen = false">
-                            <Link href="/pos-systems-in-kenya-news" class="inline-flex items-center text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#2596be] transition-colors">
+                            <Link href="/news" class="inline-flex items-center text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#2596be] transition-colors">
                                 Resources
                                 <svg :class="{'rotate-180': resourcesDropdownOpen}" class="ml-1 h-3.5 w-3.5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -229,7 +229,7 @@ const scrollToSection = (sectionId) => {
                                             </div>
                                         </a>
                                         <div class="border-t border-gray-100"></div>
-                                        <a href="/pos-systems-in-kenya-news" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#2596be] transition-colors">
+                                        <a href="/news" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#2596be] transition-colors">
                                             <svg class="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                                             </svg>
@@ -300,7 +300,7 @@ const scrollToSection = (sectionId) => {
                         <div class="border-t border-gray-100 mt-2 pt-2"></div>
                         <div class="pl-4 pr-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-400">Resources</div>
                         <a href="/success-stories" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Success Stories</a>
-                        <a href="/pos-systems-in-kenya-news" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Blog / Guide</a>
+                        <a href="/news" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Blog / Guide</a>
                         <a href="/support" @click="isOpen = false" class="block pl-6 pr-4 py-2 text-sm font-medium text-gray-600 hover:text-[#2596be] hover:bg-gray-50 transition-colors">Support Contacts</a>
                     </div>
                     <div class="border-t border-gray-200 pt-2 pb-3 space-y-1">

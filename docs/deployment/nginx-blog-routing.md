@@ -9,7 +9,7 @@ from this repository.
 ```nginx
 # Place before the static-file fallback for /, and after the /build and /storage rules.
 # Blog URLs must reach Laravel so they render from the live database.
-location ~ ^/(blogs(?:/|$)|pos-systems-in-kenya-news(?:/|$)) {
+location ~ ^/(blogs(?:/|$)|news(?:/|$)|pos-systems-in-kenya-news(?:/|$)) {
     rewrite ^ /index.php last;
 }
 ```
@@ -30,16 +30,17 @@ Notes for the host owner:
 - Inertia navigation requests carry the `X-Inertia` header and must still reach
   `index.php`. The controller returns the Vue page JSON for those requests and full
   HTML for normal requests.
-- The rule covers `/blogs`, `/blogs/{slug}` and `/pos-systems-in-kenya-news`,
-  including their `?page=` variants.
+- The rule covers `/blogs`, `/blogs/{slug}`, `/news` and the legacy
+  `/pos-systems-in-kenya-news` redirect, including their `?page=` variants.
 
 ## Manual verification checklist (after deployment)
 
 Run these against the live host once the PHP/Blade/build files and the nginx rule
 are in place:
 
-- `curl -sI https://wabepoint.com/pos-systems-in-kenya-news` → `200`, and the body
-  contains six post titles and `Our Blog`.
+- `curl -sI https://wabepoint.com/news` → `200`, and the body contains six post
+  titles and `Our Blog`.
+- `curl -sI https://wabepoint.com/pos-systems-in-kenya-news` → `301` to `/news`.
 - `curl -s https://wabepoint.com/blogs/pos-software-for-clothing-stores-in-kenya`
   → contains "POS Software for Clothing Stores in Kenya" and the article body, not
   an empty `#app` shell.

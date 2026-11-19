@@ -25,7 +25,7 @@ class SitemapController extends Controller
         $static = array_merge($static, [
             ['path' => '/point-of-sale-system-kenya', 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['path' => '/pricing', 'priority' => '0.7', 'changefreq' => 'monthly'],
-            ['path' => '/pos-systems-in-kenya-news', 'priority' => '0.7', 'changefreq' => 'weekly'],
+            ['path' => '/news', 'priority' => '0.7', 'changefreq' => 'weekly'],
             ['path' => '/success-stories', 'priority' => '0.7', 'changefreq' => 'weekly'],
             ['path' => '/about', 'priority' => '0.6', 'changefreq' => 'monthly'],
             ['path' => '/support', 'priority' => '0.5', 'changefreq' => 'monthly'],

@@ -35,7 +35,7 @@ class DynamicBlogPagesTest extends TestCase
     public function test_normal_index_renders_six_newest_posts_as_html(): void
     {
         $this->makeBlogs(User::factory()->create(), 7);
-        $this->get('/pos-systems-in-kenya-news')
+        $this->get('/news')
             ->assertOk()
             ->assertViewIs('blogs.index')
             ->assertSee('Post 7')
@@ -46,12 +46,12 @@ class DynamicBlogPagesTest extends TestCase
     public function test_index_pagination_uses_page_query(): void
     {
         $this->makeBlogs(User::factory()->create(), 7);
-        $this->get('/pos-systems-in-kenya-news?page=2')
+        $this->get('/news?page=2')
             ->assertOk()
             ->assertSee('Post 1')
             ->assertDontSee('Post 7');
-        $this->get('/pos-systems-in-kenya-news?page=999')->assertOk();
-        $this->get('/pos-systems-in-kenya-news?page=abc')->assertOk();
+        $this->get('/news?page=999')->assertOk();
+        $this->get('/news?page=abc')->assertOk();
     }
 
     public function test_normal_detail_renders_trusted_body_html_and_plain_meta(): void
@@ -104,14 +104,14 @@ class DynamicBlogPagesTest extends TestCase
             ->assertOk()
             ->assertSee('tel:+254781312070')
             ->assertSee('+254 781 312 070')
-            ->assertSee('/pos-systems-in-kenya-news')
+            ->assertSee('/news')
             ->assertSee($css, false)
             ->assertDontSee('src="/build/assets/', false);
     }
 
     public function test_mobile_menu_panel_is_positioned_against_the_nav_not_the_hamburger(): void
     {
-        $this->get('/pos-systems-in-kenya-news')
+        $this->get('/news')
             ->assertOk()
             ->assertDontSee('<details class="md:hidden relative">', false)
             ->assertSee('class="absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg"', false);
@@ -129,7 +129,7 @@ class DynamicBlogPagesTest extends TestCase
 
         config(['industries' => null]);
 
-        foreach (['/pos-systems-in-kenya-news', '/blogs/'.$blog->slug] as $path) {
+        foreach (['/news', '/blogs/'.$blog->slug] as $path) {
             $this->get($path)
                 ->assertOk()
                 ->assertSee('ALL-IN-ONE POS SYSTEM')
@@ -156,6 +156,11 @@ class DynamicBlogPagesTest extends TestCase
             }
 
             $html = file_get_contents($file->getPathname());
+            $this->assertStringNotContainsString(
+                'pos-systems-in-kenya-news',
+                $html,
+                "Stale blog URL in {$file->getPathname()}"
+            );
             preg_match_all('#(?:href|src)="(/build/assets/[^"]+)"#', $html, $matches);
             $this->assertNotEmpty($matches[1], "Expected build asset references in {$file->getPathname()}");
 
@@ -202,6 +207,22 @@ class DynamicBlogPagesTest extends TestCase
         }
     }
 
+    public function test_news_is_the_blog_index_url_and_old_path_redirects(): void
+    {
+        $this->makeBlogs(User::factory()->create(), 2);
+
+        $this->get('/news')
+            ->assertOk()
+            ->assertViewIs('blogs.index')
+            ->assertSee('href="/news"', false)
+            ->assertSee('https://wabepoint.com/news', false)
+            ->assertDontSee('href="/pos-systems-in-kenya-news"', false)
+            ->assertDontSee('https://wabepoint.com/pos-systems-in-kenya-news', false);
+
+        $this->get('/pos-systems-in-kenya-news')
+            ->assertRedirect('/news');
+    }
+
     public function test_inertia_visits_still_return_vue_pages(): void
     {
         $user = User::factory()->create();
@@ -211,7 +232,7 @@ class DynamicBlogPagesTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        $this->get('/pos-systems-in-kenya-news', $this->inertiaHeaders())
+        $this->get('/news', $this->inertiaHeaders())
             ->assertOk()
             ->assertHeader('X-Inertia', 'true')
             ->assertJsonPath('component', 'Blogs/Index');

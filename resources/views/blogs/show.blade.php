@@ -29,7 +29,7 @@
             <nav class="flex items-center gap-2 text-sm text-gray-500" aria-label="Breadcrumb">
                 <a href="/" class="hover:text-[#2596be] transition-colors">Home</a>
                 <span>/</span>
-                <a href="/pos-systems-in-kenya-news" class="hover:text-[#2596be] transition-colors">Blog</a>
+                <a href="/news" class="hover:text-[#2596be] transition-colors">Blog</a>
                 <span>/</span>
                 <span class="text-gray-800 font-medium truncate">{{ $blog->name }}</span>
             </nav>

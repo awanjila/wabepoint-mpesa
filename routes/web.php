@@ -187,8 +187,8 @@ Route::controller(BlogController::class)->group(function(){
 
     ///frontend///
     Route::get('/blogs/{slug}', [BlogController::class, 'show'])->name('blogs.show');
-    Route::redirect('/news', '/pos-systems-in-kenya-news', 301);
-    Route::get('pos-systems-in-kenya-news', [BlogController::class, 'index'])->name('blogs.index');
+    Route::get('/news', [BlogController::class, 'index'])->name('blogs.index');
+    Route::redirect('pos-systems-in-kenya-news', '/news', 301);
 
    });
 
